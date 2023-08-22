@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-// import org.springframework.data.mongodb.core.mapping.MongoId;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 /**
  * Database Model for Chapters
@@ -16,11 +16,11 @@ import org.springframework.data.mongodb.core.mapping.Field;
  * @since 1.0
  */
 @Document("chapters")
-@CompoundIndex(name = "chapter_id", def = "{'manga_slug': 1, 'number': 1}", unique = true)
+@CompoundIndex(name = "chapter_id", def = "{'manga_slug': 1, 'number': -1}", unique = true)
 public class Chapter implements Serializable {
 
-    // @MongoId
-    // private String id;
+    @MongoId
+    private String id;
 
     @Indexed
     @Field("manga_slug")
@@ -31,7 +31,7 @@ public class Chapter implements Serializable {
 
     private float number;
 
-    private String name = "";
+    private String name;
 
     private String url;
 
@@ -48,13 +48,15 @@ public class Chapter implements Serializable {
     /**
      * Minimum class constructor
      * 
+     * @param id        the manga's id
      * @param mangaSlug the manga's slug
      * @param slug      the chapter's slug
      * @param number    the chapter's number
      * @param url       the chapter's url
      */
-    public Chapter(String mangaSlug, String slug, float number, String url) {
+    public Chapter(String id, String mangaSlug, String slug, float number, String url) {
         super();
+        this.id = id;
         this.mangaSlug = mangaSlug;
         this.slug = slug;
         this.number = number;
@@ -64,6 +66,7 @@ public class Chapter implements Serializable {
     /**
      * Full class constructor
      * 
+     * @param id        the manga's id
      * @param mangaSlug the manga's slug
      * @param slug      the chapter's slug
      * @param number    the chapter's number
@@ -71,13 +74,19 @@ public class Chapter implements Serializable {
      * @param isRead    <code>true</code> if the manga has been read;
      *                  <code>false</code> otherwise
      */
-    public Chapter(String mangaSlug, float number, String name, String url, boolean isRead) {
+    public Chapter(String id, String mangaSlug, String slug, float number, String name, String url, boolean isRead) {
         super();
+        this.id = id;
         this.mangaSlug = mangaSlug;
+        this.slug = slug;
         this.number = number;
         this.name = name;
         this.url = url;
         this.isRead = isRead;
+    }
+
+    public String getID() {
+        return id;
     }
 
     public String getMangaSlug() {

@@ -49,12 +49,14 @@ public class SyncService {
             Elements links = chaptersDiv.getElementsByTag("a");
             for (Element link : links) {
                 try {
-                    String chapterSlug = link.text().replace("Chapter ", "");
-                    float chapterNumber = Float.parseFloat(chapterSlug);
-                    String chapterUrl = "https://mangapill.com" + link.attr("href");
+                    chapterService.addChapterFromLinkElement(manga.getSlug(), link);
                     
-                    Chapter chapter = new Chapter(manga.getSlug(), chapterSlug, chapterNumber, chapterUrl);
-                    chapterService.addChapter(chapter);
+                    // String chapterSlug = link.text().replace("Chapter ", "");
+                    // float chapterNumber = Float.parseFloat(chapterSlug);
+                    // String chapterUrl = "https://mangapill.com" + link.attr("href");
+                    
+                    // Chapter chapter = new Chapter(manga.getSlug(), chapterSlug, chapterNumber, chapterUrl);
+                    // chapterService.addChapter(chapter);
                 } catch (DuplicateKeyException ex) {}
             }
         } catch (IOException ex) {}

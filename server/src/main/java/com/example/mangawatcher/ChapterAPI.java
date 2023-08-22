@@ -36,6 +36,11 @@ public class ChapterAPI {
 
     @PostMapping
     public ResponseEntity<?> addChapter(@PathVariable("manga_slug") String mangaSlug, @RequestBody Chapter chapter) {
+        if (!chapter.getMangaSlug().equals(mangaSlug)) {
+            String message = "The managa slug must match between the URI and chapter body";
+            return new ResponseEntity<String>("{\"error_message\":\"" + message + "\"}", HttpStatus.BAD_REQUEST);
+        }
+        
         try {
             chapter.setMangaSlug(mangaSlug);
             Chapter createdChapter = chapterService.addChapter(chapter);
@@ -59,10 +64,10 @@ public class ChapterAPI {
         }
     }
 
-    @PutMapping("/{chapter_slug}")
-    public ResponseEntity<?> updateChatper(@PathVariable("manga_slug") String mangaSlug, @PathVariable("chapter_slug") String slug, @RequestBody Chapter chapter) {
-        if (!chapter.getMangaSlug().equals(mangaSlug) || !chapter.getSlug().equals(slug)) {
-            String message = "The managa slug and chapter slug must match between the URI and chapter body";
+    @PutMapping
+    public ResponseEntity<?> updateChatper(@PathVariable("manga_slug") String mangaSlug, @RequestBody Chapter chapter) {
+        if (!chapter.getMangaSlug().equals(mangaSlug)) {
+            String message = "The managa slug must match between the URI and chapter body";
             return new ResponseEntity<String>("{\"error_message\":\"" + message + "\"}", HttpStatus.BAD_REQUEST);
         }
 

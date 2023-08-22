@@ -1,0 +1,10 @@
+<div>
+    <p>Add Library Header Here</p>
+</div>
+
+<div *ngFor="let manga of mangas">
+    <a [routerLink]="['/', manga.slug]">
+        <img src="{{ manga.imageUrl }}" />
+        <h2>{{ manga.title }}</h2>
+    </a>
+</div>

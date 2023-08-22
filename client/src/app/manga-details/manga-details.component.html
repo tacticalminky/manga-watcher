@@ -1,0 +1,11 @@
+<div *ngIf="manga">
+    <img src="{{ manga.imageUrl }}" />
+    <h2>{{ manga.title }}</h2>
+    <p>{{ manga.description }}</p>
+    <a href="{{ manga.url }}" target="_blank">Source</a>
+    <!-- Sync Manga Button -->
+
+    <div *ngFor="let chapter of chapters">
+        <a href="{{ chapter.url }}" target="_blank">Chapter {{ chapter.slug }}</a>
+    </div>
+</div>

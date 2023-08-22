@@ -2,6 +2,7 @@ package com.example.mangawatcher.services;
 
 import java.util.List;
 
+import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,19 @@ public class ChapterService {
     }
 
     public Chapter addChapter(Chapter chapter) throws MangaNotFoundException, MongoWriteException {
+        mangaService.findMangaBySlug(chapter.getMangaSlug());
+        return chapterRepo.save(chapter);
+    }
+
+    public Chapter addChapterFromLinkElement(String mangaSlug, Element link) throws MangaNotFoundException, MongoWriteException {
+        String chapterSlug = link.text().replace("Chapter ", "");
+        String chapterID = mangaSlug + '-' + chapterSlug;
+        String chapterUrl = "https://mangapill.com" + link.attr("href");
+
+        float chapterNumber = Float.parseFloat(chapterSlug);
+
+        Chapter chapter = new Chapter(chapterID, mangaSlug, chapterSlug, chapterNumber, chapterUrl);
+
         mangaService.findMangaBySlug(chapter.getMangaSlug());
         return chapterRepo.save(chapter);
     }
