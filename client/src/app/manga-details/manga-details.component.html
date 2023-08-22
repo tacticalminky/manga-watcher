@@ -1,11 +1,19 @@
-<div *ngIf="manga">
-    <img src="{{ manga.imageUrl }}" />
+<div class="manga-details" *ngIf="manga">
+    <img [src]="manga.imageUrl" />
     <h2>{{ manga.title }}</h2>
     <p>{{ manga.description }}</p>
-    <a href="{{ manga.url }}" target="_blank">Source</a>
-    <!-- Sync Manga Button -->
 
-    <div *ngFor="let chapter of chapters">
-        <a href="{{ chapter.url }}" target="_blank">Chapter {{ chapter.slug }}</a>
+    <a [href]="manga.url" target="_blank">Source</a>
+    
+    <button type="button" (click)="onSyncMangaClick()">Sync</button>
+    
+    <button type="button" (click)="onMarkAllReadClick(markRead)">
+        {{ markRead ? "Mark All Read" : "Mark All Unread" }}
+    </button>
+</div>
+
+<div class="chapter-container" *ngIf="chapters">
+    <div class="chapter-card" *ngFor="let chapter of chapters">
+        <a [href]="chapter.url" target="_blank" (click)="onChapterClick(chapter)">Chapter {{ chapter.slug }}</a>
     </div>
 </div>

@@ -1,10 +1,14 @@
-<div>
+<div class="library-top-bar">
     <p>Add Library Header Here</p>
+
+    <button type="button" (click)="onSyncAllClick()">Sync All</button>
 </div>
 
-<div *ngFor="let manga of mangas">
-    <a [routerLink]="['/', manga.slug]">
-        <img src="{{ manga.imageUrl }}" />
-        <h2>{{ manga.title }}</h2>
-    </a>
+<div class="library-container" *ngIf="mangas">
+    <div class="manga-card" *ngFor="let manga of mangas">
+        <a [routerLink]="['/', manga.slug]">
+            <img [src]="manga.imageUrl" />
+            <h2>{{ manga.title }}</h2>
+        </a>
+    </div>
 </div>

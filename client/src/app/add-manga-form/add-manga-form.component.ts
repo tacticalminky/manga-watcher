@@ -4,6 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { BackendApiService } from '../backend-api.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Manga } from '../interfaces';
+import { SyncService } from '../sync.service';
 
 @Component({
     selector: 'app-add-manga-form',
@@ -19,6 +20,7 @@ export class AddMangaFormComponent {
 
     constructor(
         private apiService: BackendApiService,
+        private syncService: SyncService,
         private formBuilder: FormBuilder
     ) { }
 
@@ -35,16 +37,8 @@ export class AddMangaFormComponent {
     private addManga(manga: Manga): void {
         this.apiService.addManga(manga).subscribe({
             next: (res: Manga) => {
-                this.syncManga(res);
+                this.syncService.syncManga(res);
             },
-            error: (error: HttpErrorResponse) => {
-                alert(error.message);
-            }
-        });
-    }
-
-    private syncManga(manga: Manga): void {
-        this.apiService.syncMangaBySlug(manga.slug).subscribe({
             error: (error: HttpErrorResponse) => {
                 alert(error.message);
             }

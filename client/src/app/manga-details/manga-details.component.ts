@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Manga, Chapter } from '../interfaces';
 import { BackendApiService } from '../backend-api.service';
+import { SyncService } from '../sync.service';
 
 @Component({
     selector: 'app-manga-details',
@@ -13,11 +14,13 @@ import { BackendApiService } from '../backend-api.service';
 export class MangaDetailsComponent implements OnInit {
     manga: Manga | undefined;
     chapters: Chapter[] | undefined;
+    markRead: boolean = false;
 
     constructor(
         private apiService: BackendApiService,
+        private syncService: SyncService,
         private route: ActivatedRoute,
-        private router: Router,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
@@ -44,10 +47,35 @@ export class MangaDetailsComponent implements OnInit {
         this.apiService.getChaptersByMangaSlug(mangaSlug).subscribe({
             next: (res: Chapter[]) => {
                 this.chapters = res;
+                this.markRead = res.find(chapter => {
+                    return !chapter.isRead;
+                }) !== undefined;
             },
             error: (error: HttpErrorResponse) => {
                 alert(error.message);
             }
         });
     }
+
+    onSyncMangaClick(): void {
+        this.syncService.syncManga(this.manga!);
+    }
+
+    onChapterClick(chapter: Chapter): void {
+        if (!chapter.isRead) {
+            // update chapter
+        }
+    }
+
+    onMarkAllReadClick(read: boolean): void {
+        // mark read if !read
+        this.chapters?.forEach(chapter => {
+            if (chapter.isRead != read) {
+                // update chapter
+            }
+        });
+        
+        read = !read;
+    }
+
 }

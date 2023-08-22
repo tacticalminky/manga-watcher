@@ -3,6 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { Manga } from '../interfaces';
 import { BackendApiService } from '../backend-api.service';
+import { SyncService } from '../sync.service';
 
 @Component({
     selector: 'app-library',
@@ -12,7 +13,10 @@ import { BackendApiService } from '../backend-api.service';
 export class LibraryComponent implements OnInit {
     mangas: Manga[] | undefined;
 
-    constructor(private apiService: BackendApiService) { }
+    constructor(
+        private apiService: BackendApiService,
+        private syncService: SyncService
+    ) { }
 
     ngOnInit(): void {
         this.getManga();
@@ -29,5 +33,9 @@ export class LibraryComponent implements OnInit {
                 alert(error.message);
             }
         })
+    }
+
+    onSyncAllClick(): void {
+        this.syncService.syncAllManga();
     }
 }
