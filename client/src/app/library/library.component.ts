@@ -25,7 +25,8 @@ export class LibraryComponent implements OnInit {
                 this.mangas = res;
             },
             error: (error: HttpErrorResponse) => {
-                alert(error.message)
+                console.error(error);
+                alert(error.message);
             }
         })
     }

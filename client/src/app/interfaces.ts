@@ -2,8 +2,8 @@ export interface Manga {
     title: string;
     slug: string;
     url: string;
-    description: string | null;
-    imageUrl: string | null;
+    description?: string | null;
+    imageUrl?: string | null;
 }
 
 export interface Chapter {

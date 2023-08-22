@@ -26,10 +26,8 @@ export class AddMangaFormComponent {
         const manga: Manga = {
             title: String(this.addMangaForm.value.title),
             slug: String(null),
-            url: String(this.addMangaForm.value.url),
-            description: null,
-            imageUrl: null
-        }
+            url: String(this.addMangaForm.value.url)
+        };
         this.addManga(manga);
         this.addMangaForm.reset();
     }
