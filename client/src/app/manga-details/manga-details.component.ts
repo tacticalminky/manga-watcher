@@ -63,19 +63,33 @@ export class MangaDetailsComponent implements OnInit {
 
     onChapterClick(chapter: Chapter): void {
         if (!chapter.isRead) {
-            // update chapter
+            chapter.isRead = true;
+            this.apiService.updateChapter(chapter.mangaSlug, chapter).subscribe({
+                error: (error: HttpErrorResponse) => {
+                    alert(error.message);
+                },
+                complete: this.reloadComponent
+            });
         }
     }
 
     onMarkAllReadClick(read: boolean): void {
-        // mark read if !read
         this.chapters?.forEach(chapter => {
             if (chapter.isRead != read) {
-                // update chapter
+                chapter.isRead = read;
+                this.apiService.updateChapter(chapter.mangaSlug, chapter).subscribe({
+                    next: (res: Chapter) => {},
+                    error: (error: HttpErrorResponse) => {
+                        alert(error.message);
+                    }
+                });
             }
         });
-        
-        read = !read;
     }
 
+    private reloadComponent(): void {
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+            this.router.navigate(['/', this.manga?.slug]);
+        });
+    }
 }

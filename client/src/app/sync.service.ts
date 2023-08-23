@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { Manga } from './interfaces';
 import { BackendApiService } from './backend-api.service';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root'

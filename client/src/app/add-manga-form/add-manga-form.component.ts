@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { BackendApiService } from '../backend-api.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Manga } from '../interfaces';
 import { SyncService } from '../sync.service';
 

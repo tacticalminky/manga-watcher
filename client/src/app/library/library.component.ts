@@ -25,7 +25,6 @@ export class LibraryComponent implements OnInit {
     private getManga(): void {
         this.apiService.getAllManga().subscribe({
             next: (res: Manga[]) => {
-                console.log(res);
                 this.mangas = res;
             },
             error: (error: HttpErrorResponse) => {
