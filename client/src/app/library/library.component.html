@@ -1,20 +1,15 @@
-<nav class="navbar navbar-expand bg-body-tertiary rounded my-2 mx-3">
-  <div class="container-fluid">
-    <div class="navbar-brand"><h2>Library</h2></div>
-
-    <button class="btn btn-primary" type="button" (click)="onSyncAllClick()">Sync All</button>
-  </div>
-</nav>
-
 <div class="container text-center" *ngIf="mangas">
   <div class="row row-cols-auto justify-content-evenly">
     <div class="col m-2" *ngFor="let manga of mangas">
+
+      <!-- <div class="card" style="width: 16rem; height: 24rem;"> -->
       <div class="card" style="width: 16rem;">
-        <a class="link-light link-underline-opacity-0" [routerLink]="['/', manga.slug]">
+        <a class="btn" [routerLink]="['/', 'manga', manga.slug]">
           <img class="card-img-top" [src]="manga.imageUrl" />
           <h5 class="card-title">{{ manga.title }}</h5>
         </a>
       </div>
+
     </div>
   </div>
 </div>

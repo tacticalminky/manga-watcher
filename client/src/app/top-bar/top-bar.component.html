@@ -1,11 +1,12 @@
 <nav class="navbar navbar-expand bg-body-tertiary rounded-bottom">
   <div class="container-fluid">
     <a class="navbar-brand" [routerLink]="['/']">
-      <h1>Manga Watcher</h1>
+      <h2>Manga Watcher</h2>
     </a>
-
+    
     <div class="navbar-nav">
-      <a class="nav-link" [routerLink]="['/add-manga']">Add Manga</a>
+      <button class="btn btn-outline-light" type="button" (click)="onSyncAllClick()">Sync All</button>
+      <a class="btn btn-outline-light" [routerLink]="['/add-manga']">Add Manga</a>
     </div>
   </div>
 </nav>

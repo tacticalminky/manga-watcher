@@ -10,7 +10,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 const routes: Routes = [
     { path: '', component: LibraryComponent },
     { path: 'add-manga', component: AddMangaFormComponent },
-    { path: ':mangaSlug', component: MangaDetailsComponent },
+    { path: 'manga/:mangaSlug', component: MangaDetailsComponent },
     { path: '**', component: PageNotFoundComponent }
 ];
 

@@ -29,6 +29,8 @@ public class Manga implements Serializable {
 
     private String imageUrl;
 
+    private boolean isMonitored;
+
     /**
      * Blank class constructor
      */
@@ -55,13 +57,15 @@ public class Manga implements Serializable {
      * @param url         the manga's url
      * @param description the description of the manga's plot
      * @param imageUrl    the url for the manga's image
+     * @param isMonitored the monitored status of the manga
      */
-    public Manga(String title, String url, String description, String imageUrl) {
+    public Manga(String title, String url, String description, String imageUrl, boolean isMonitored) {
         super();
         this.title = title;
         this.url = url;
         this.description = description;
         this.imageUrl = imageUrl;
+        this.isMonitored = isMonitored;
     }
 
     public String getTitle() {
@@ -98,6 +102,14 @@ public class Manga implements Serializable {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public boolean isMonitored() {
+        return isMonitored;
+    }
+
+    public void isMonitored(boolean isMonitored) {
+        this.isMonitored = isMonitored;
     }
 
     @Override

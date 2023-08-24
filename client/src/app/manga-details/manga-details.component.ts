@@ -93,7 +93,7 @@ export class MangaDetailsComponent implements OnInit {
 
     private reloadComponent(): void {
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-            this.router.navigate(['/', this.manga?.slug]);
+            this.router.navigate(['/', 'manga', this.manga?.slug]);
         });
     }
 }

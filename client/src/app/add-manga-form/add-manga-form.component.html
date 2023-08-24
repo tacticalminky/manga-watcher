@@ -1,23 +1,13 @@
-<div class="container text-center">
+<div class="container">
   <h2>Add Manga</h2>
 
   <form [formGroup]="addMangaForm" (ngSubmit)="onSubmit()">
+    <label class="form-label" for="title">Title</label>
+    <input class="form-control" id="title" type="text" placeholder="Manga Title" formControlName="title"/>
 
-    <div>
-      <label for="title">
-        Title
-      </label>
-      <input id="title" type="text" placeholder="Manga Title" formControlName="title" />
-    </div>
-    
-    <div>
-      <label for="url">
-        URL
-      </label>
-      <input id="url" type="text" placeholder="https://mangapill.com/" formControlName="url" />
-    </div>
+    <label class="form-label" for="url">URL</label>
+    <input class="form-control" id="url" type="text" placeholder="https://mangapill.com/" formControlName="url"/>
 
-    <button class="button" type='submit'>Add Manga</button>
-
+    <button class="btn btn-secondary" type='submit'>Add Manga</button>
   </form>
 </div>
