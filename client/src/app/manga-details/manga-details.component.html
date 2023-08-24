@@ -1,19 +1,35 @@
-<div class="manga-details" *ngIf="manga">
-    <img [src]="manga.imageUrl" />
-    <h2>{{ manga.title }}</h2>
-    <p>{{ manga.description }}</p>
+<div class="container" *ngIf="manga">
+  <div class="row">
+    <div class="col-2">
+      <img [src]="manga.imageUrl" />
+      <h2>{{ manga.title }}</h2>
+      <a class="link-light" [href]="manga.url" target="_blank">Source</a>
+    </div>
+    
+    <div class="col">
+      <p>{{ manga.description }}</p>
+    </div>
 
-    <a [href]="manga.url" target="_blank">Source</a>
-    
-    <button type="button" (click)="onSyncMangaClick()">Sync</button>
-    
-    <button type="button" (click)="onMarkAllReadClick(markRead)">
-        {{ markRead ? "Mark All Read" : "Mark All Unread" }}
-    </button>
+    <div class="col-2">
+      <div class="row mx-5 my-2">
+        <button class="btn btn-primary" type="button" (click)="onSyncMangaClick()">Sync</button>
+      </div>
+      
+      <div class="row mx-4 my-2">
+        <button class="btn btn-primary" type="button" (click)="onMarkAllReadClick(markRead)">
+          {{ markRead ? "Mark All Read" : "Mark All Unread" }}
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="chapter-container" *ngIf="chapters">
-    <div class="chapter-card" *ngFor="let chapter of chapters">
-        <a [href]="chapter.url" target="_blank" (click)="onChapterClick(chapter)">Chapter {{ chapter.slug }}</a>
+<div class="container text-center" *ngIf="chapters">
+  <div class="row row-cols-auto justify-content-evenly">
+    <div class="col p-1" *ngFor="let chapter of chapters">
+      <div class="card">
+        <a class="link-offset-2-hover link-underline-opacity-0 link-underline-opacity-75-hover py-2 px-3 {{ ((chapter.isRead) ? 'link-secondary' : 'link-light' ) }}" [href]="chapter.url" target="_blank" (click)="onChapterClick(chapter)">Chapter {{ chapter.slug }}</a>
+      </div>
     </div>
+  </div>
 </div>

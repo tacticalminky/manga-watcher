@@ -67,24 +67,28 @@ export class MangaDetailsComponent implements OnInit {
             this.apiService.updateChapter(chapter.mangaSlug, chapter).subscribe({
                 error: (error: HttpErrorResponse) => {
                     alert(error.message);
-                },
-                complete: this.reloadComponent
+                }
             });
         }
     }
 
     onMarkAllReadClick(read: boolean): void {
+        let countToUpdate = 0;
         this.chapters?.forEach(chapter => {
-            if (chapter.isRead != read) {
+            if (chapter.isRead !== read) {
+                countToUpdate += 1;
                 chapter.isRead = read;
                 this.apiService.updateChapter(chapter.mangaSlug, chapter).subscribe({
-                    next: (res: Chapter) => {},
-                    error: (error: HttpErrorResponse) => {
-                        alert(error.message);
+                    next: (res: Chapter) => {
+                        countToUpdate -= 1;
+                        console.log('%d left to update', countToUpdate);
+                        
                     }
                 });
             }
         });
+        this.markRead = !read;
+        console.log('Updating %d chapters', countToUpdate);
     }
 
     private reloadComponent(): void {

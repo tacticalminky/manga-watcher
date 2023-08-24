@@ -1,21 +1,23 @@
-<p>add-manga-form works!</p>
+<div class="container text-center">
+  <h2>Add Manga</h2>
 
-<form [formGroup]="addMangaForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="addMangaForm" (ngSubmit)="onSubmit()">
 
     <div>
-        <label for="title">
-            Title
-        </label>
-        <input id="title" type="text" placeholder="Manga Title" formControlName="title" />
+      <label for="title">
+        Title
+      </label>
+      <input id="title" type="text" placeholder="Manga Title" formControlName="title" />
     </div>
-
+    
     <div>
-        <label for="url">
-            URL
-        </label>
-        <input id="url" type="text" placeholder="https://mangapill.com/" formControlName="url" />
+      <label for="url">
+        URL
+      </label>
+      <input id="url" type="text" placeholder="https://mangapill.com/" formControlName="url" />
     </div>
 
     <button class="button" type='submit'>Add Manga</button>
 
-</form>
+  </form>
+</div>

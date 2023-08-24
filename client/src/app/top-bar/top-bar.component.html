@@ -1,5 +1,11 @@
-<a [routerLink]="['/']">
-    <h1>Library</h1>
-</a>
+<nav class="navbar navbar-expand bg-body-tertiary rounded-bottom">
+  <div class="container-fluid">
+    <a class="navbar-brand" [routerLink]="['/']">
+      <h1>Manga Watcher</h1>
+    </a>
 
-<a [routerLink]="['/add-manga']">Add Manga</a>
+    <div class="navbar-nav">
+      <a class="nav-link" [routerLink]="['/add-manga']">Add Manga</a>
+    </div>
+  </div>
+</nav>

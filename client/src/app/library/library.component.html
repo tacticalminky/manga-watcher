@@ -1,14 +1,20 @@
-<div class="library-top-bar">
-    <p>Add Library Header Here</p>
+<nav class="navbar navbar-expand bg-body-tertiary rounded my-2 mx-3">
+  <div class="container-fluid">
+    <div class="navbar-brand"><h2>Library</h2></div>
 
-    <button type="button" (click)="onSyncAllClick()">Sync All</button>
-</div>
+    <button class="btn btn-primary" type="button" (click)="onSyncAllClick()">Sync All</button>
+  </div>
+</nav>
 
-<div class="library-container" *ngIf="mangas">
-    <div class="manga-card" *ngFor="let manga of mangas">
-        <a [routerLink]="['/', manga.slug]">
-            <img [src]="manga.imageUrl" />
-            <h2>{{ manga.title }}</h2>
+<div class="container text-center" *ngIf="mangas">
+  <div class="row row-cols-auto justify-content-evenly">
+    <div class="col m-2" *ngFor="let manga of mangas">
+      <div class="card" style="width: 16rem;">
+        <a class="link-light link-underline-opacity-0" [routerLink]="['/', manga.slug]">
+          <img class="card-img-top" [src]="manga.imageUrl" />
+          <h5 class="card-title">{{ manga.title }}</h5>
         </a>
+      </div>
     </div>
+  </div>
 </div>
