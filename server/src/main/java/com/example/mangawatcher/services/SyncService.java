@@ -8,17 +8,17 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import com.mongodb.MongoWriteException;
 
 import com.example.mangawatcher.db_models.*;
+import com.example.mangawatcher.exceptions.ChapterWriteException;
 import com.example.mangawatcher.exceptions.MangaNotFoundException;
-import com.mongodb.MongoWriteException;
 
 /**
  * 
  * @author Andrew Mink
- * @version Aug 19, 2023
+ * @version Aug 24, 2023
  * @since 1.0
  */
 @Service
@@ -41,24 +41,32 @@ public class SyncService {
         syncManga(manga);
     }
 
-    private void syncManga(Manga manga) {
+    public void syncManga(Manga manga) {
         try {
             Document mangaPage = Jsoup.connect(manga.getUrl()).get();
 
+            /**     Update Discription      */
+            Elements metaTags = mangaPage.getElementsByTag("meta");
+            for (Element metaTag : metaTags) {
+                if (metaTag.attr("name").equals("description")) {
+                    manga.setDescription(metaTag.attr("content"));
+                }
+            }
+
+            /**     Update Image URL        */
+            // Elements imgTags = mangaPage.getElementsByTag("img");
+            // manga.setImageUrl(imgTags.get(0).attr("data-src"));
+
+            /**     Update Chapters         */
             Element chaptersDiv = mangaPage.getElementById("chapters");
             Elements links = chaptersDiv.getElementsByTag("a");
             for (Element link : links) {
                 try {
                     chapterService.addChapterFromLinkElement(manga.getSlug(), link);
-                    
-                    // String chapterSlug = link.text().replace("Chapter ", "");
-                    // float chapterNumber = Float.parseFloat(chapterSlug);
-                    // String chapterUrl = "https://mangapill.com" + link.attr("href");
-                    
-                    // Chapter chapter = new Chapter(manga.getSlug(), chapterSlug, chapterNumber, chapterUrl);
-                    // chapterService.addChapter(chapter);
-                } catch (DuplicateKeyException ex) {}
+                } catch (ChapterWriteException ex) {}
             }
+
+            mangaService.updateManga(manga);
         } catch (IOException ex) {}
     }
 

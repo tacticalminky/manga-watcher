@@ -15,7 +15,7 @@ import com.example.mangawatcher.services.ChapterService;
 /**
  * 
  * @author Andrew Mink
- * @version Aug 19, 2023
+ * @version Aug 24, 2023
  * @since 1.0
  */
 @RestController
@@ -47,6 +47,8 @@ public class ChapterAPI {
             return new ResponseEntity<Chapter>(createdChapter, HttpStatus.CREATED);
         } catch (MangaNotFoundException ex) {
             return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);
+        } catch (MangaWriteException ex) {
+            return new ResponseEntity<>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.CONFLICT);
         } catch (DuplicateKeyException ex) {
             return new ResponseEntity<>("{\"error_message\":\"" + ex.getRootCause().getMessage() + "\"}", HttpStatus.CONFLICT);
         } catch (Exception ex) {
@@ -76,7 +78,7 @@ public class ChapterAPI {
             return new ResponseEntity<Chapter>(updatedChapter, HttpStatus.OK);
         } catch (MangaNotFoundException | ChapterNotFoundException ex) {
             return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);
-        } catch (ChapterUpdateException ex) {
+        } catch (ChapterWriteException ex) {
             return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.CONFLICT);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);

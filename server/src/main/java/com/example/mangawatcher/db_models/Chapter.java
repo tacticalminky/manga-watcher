@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
  * Database Model for Chapters
  * 
  * @author Andrew Mink
- * @version Aug 19, 2023
+ * @version Aug 24, 2023
  * @since 1.0
  */
 @Document("chapters")
