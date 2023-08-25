@@ -3,8 +3,9 @@
 ### VS Code ###
 .vscode/
 
-### Certs ###
-*.pem
+### Testing and Environment Vars ###
+./local_testing/
+.env
 
 ### Java ### 
 

@@ -29,9 +29,9 @@ export class BackendApiService {
         return this.http.put<Manga>(`${this.apiServerUrl}/manga`, manga);
     }
 
-    public deleteMangaBySlug(slug: string): Observable<JSON> {
-        return this.http.delete<JSON>(`${this.apiServerUrl}/manga/${slug}`);
-    }
+    // public deleteMangaBySlug(slug: string): Observable<JSON> {
+    //     return this.http.delete<JSON>(`${this.apiServerUrl}/manga/${slug}`);
+    // }
 
     /**     Sync API Calls          */
     public syncAllManga(): Observable<JSON> {

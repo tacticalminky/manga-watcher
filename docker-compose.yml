@@ -1,0 +1,38 @@
+version: '3.9'
+services:
+  # mongo:
+  #   container_name: mongo
+  #   image: mongo
+  #   tty: true
+  #   ports:
+  #     - 27017:27017
+  #   volumes:
+  #     - type: bind
+  #       source: ${LOCAL_DB_DIR}
+  #       target: /data/db
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
+  #     MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+  #     MONGO_INITDB_DATABASE: ${MONGODB_DB}
+
+  backend:
+    container_name: mangawatcher-backend
+    image: tacticalminky/mangawatcher-backend
+    build: ./server
+    ports:
+      - 8080:8080
+    environment:
+      MONGODB_URI: ${MONGODB_URI}
+      # MONGODB_URI: mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@mongo:27017
+      MONGODB_BD: ${MONGODB_DB}
+    # depends_on:
+    #   - mongo
+  
+  frontend:
+    container_name: mangawatcher-frontend
+    image: tacticalminky/mangawatcher-frontend
+    build: ./client
+    ports:
+      - 4200:80
+    depends_on:
+      - backend
