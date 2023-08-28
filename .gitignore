@@ -4,7 +4,7 @@
 .vscode/
 
 ### Testing and Environment Vars ###
-./local_testing/
+./local_testing
 .env
 
 ### Java ### 
