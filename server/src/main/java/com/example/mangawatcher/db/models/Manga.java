@@ -31,6 +31,10 @@ public class Manga implements Serializable {
 
     private boolean isMonitored = true;
 
+    private boolean isDescriptionLocked = false;
+
+    private boolean isImageUrlLocked = false;
+
     /**
      * Blank class constructor
      */
@@ -108,8 +112,24 @@ public class Manga implements Serializable {
         return isMonitored;
     }
 
-    public void isMonitored(boolean isMonitored) {
+    public void setIsMonitored(boolean isMonitored) {
         this.isMonitored = isMonitored;
+    }
+
+    public boolean isDescriptionLocked() {
+        return isDescriptionLocked;
+    }
+
+    public void getIsDescriptionLocked(boolean isDescriptionLocked) {
+        this.isDescriptionLocked = isDescriptionLocked;
+    }
+
+    public boolean isImageUrlLocked() {
+        return isImageUrlLocked;
+    }
+
+    public void getIsImageUrlLocked(boolean isImageUrlLocked) {
+        this.isImageUrlLocked = isImageUrlLocked;
     }
 
     @Override

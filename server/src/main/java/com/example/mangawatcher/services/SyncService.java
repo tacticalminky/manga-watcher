@@ -46,18 +46,20 @@ public class SyncService {
             Document mangaPage = Jsoup.connect(manga.getUrl()).get();
 
             /**     Update Description      */
-            // TODO check description lock
-            Elements metaTags = mangaPage.getElementsByTag("meta");
-            for (Element metaTag : metaTags) {
-                if (metaTag.attr("name").equals("description")) {
-                    manga.setDescription(metaTag.attr("content"));
+            if (!manga.isDescriptionLocked()) {
+                Elements metaTags = mangaPage.getElementsByTag("meta");
+                for (Element metaTag : metaTags) {
+                    if (metaTag.attr("name").equals("description")) {
+                        manga.setDescription(metaTag.attr("content"));
+                    }
                 }
             }
 
             /**     Update Image URL        */
-            // TODO check image lock
-            // Elements imgTags = mangaPage.getElementsByTag("img");
-            // manga.setImageUrl(imgTags.get(0).attr("data-src"));
+            // if (!manga.isImageUrlLocked()) {
+            //     Elements imgTags = mangaPage.getElementsByTag("img");
+            //     manga.setImageUrl(imgTags.get(0).attr("data-src"));
+            // }
 
             /**     Update Chapters         */
             List<String> addedChapters = new ArrayList<String>();

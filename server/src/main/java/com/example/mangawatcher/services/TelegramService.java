@@ -19,7 +19,6 @@ import com.example.mangawatcher.db.models.Manga;
  */
 @Service
 public class TelegramService extends TelegramLongPollingBot {
-
     private static String TELEGRAM_BOT_USERNAME;
     private static String TELEGRAM_CHAT_ID;
 
@@ -49,7 +48,7 @@ public class TelegramService extends TelegramLongPollingBot {
             for (int i = 0; i < addedChapters.size() && i < 5; i++) {
                 text += " Chapter " + addedChapters.get(i) + ",";
             }
-            
+
             text = text.substring(0, text.length() - 1);
             text += "!";
         }

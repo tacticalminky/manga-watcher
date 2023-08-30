@@ -5,6 +5,8 @@ export interface Manga {
     description?: string | null;
     imageUrl?: string | null;
     isMonitored?: boolean | null;
+    isDescriptionLocked?: boolean | null;
+    isImageUrlLocked?: boolean | null;
 }
 
 export interface Chapter {
