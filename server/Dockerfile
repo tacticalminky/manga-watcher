@@ -15,5 +15,8 @@ COPY --from=builder /opt/app/target/*.jar /opt/app/*.jar
 EXPOSE 8080
 ENV MONGODB_URI="mongodb+srv://<username>:<password>@<clusterName>.mongodb.net"
 ENV MONGODB_DB="mangawatcher"
+ENV TELEGRAM_BOT_USERNAME="MangaWatcherBot"
+ENV TELEGRAM_BOT_TOKEN="<token>"
+ENV TELEGRAM_CHAT_ID=""
 
 ENTRYPOINT [ "java", "-jar", "/opt/app/*.jar" ]

@@ -1,4 +1,4 @@
-package com.example.mangawatcher;
+package com.example.mangawatcher.apis;
 
 import java.util.List;
 
@@ -8,9 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.mangawatcher.db_models.Manga;
 import com.example.mangawatcher.exceptions.MangaNotFoundException;
 import com.example.mangawatcher.exceptions.MangaWriteException;
+import com.example.mangawatcher.db.models.Manga;
 import com.example.mangawatcher.services.MangaService;
 import com.mongodb.MongoWriteException;
 
@@ -28,7 +28,7 @@ public class MangaAPI {
 
     @GetMapping
     public ResponseEntity<List<Manga>> getAllManga() {
-        List<Manga> mangas = mangaService.findAllManga();
+        List<Manga> mangas = mangaService.getAllManga();
         return new ResponseEntity<List<Manga>>(mangas, HttpStatus.OK);
     }
 
@@ -39,14 +39,15 @@ public class MangaAPI {
             return new ResponseEntity<Manga>(createdManga, HttpStatus.CREATED);
         } catch (MongoWriteException ex) {
             if (ex.getCode() == 11000) {
-                return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.CONFLICT);
+                return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}",
+                        HttpStatus.CONFLICT);
             }
 
             return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (MangaWriteException ex) {
             return new ResponseEntity<>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.CONFLICT);
         } catch (DuplicateKeyException ex) {
-            return new ResponseEntity<>("{\"error_message\":\"" + ex.getRootCause().getMessage() + "\"}", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("{\"error_message\":\"" + ex.getCause().getMessage() + "\"}", HttpStatus.CONFLICT);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }

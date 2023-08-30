@@ -1,4 +1,4 @@
-package com.example.mangawatcher.db_models;
+package com.example.mangawatcher.db.models;
 
 import java.io.Serializable;
 

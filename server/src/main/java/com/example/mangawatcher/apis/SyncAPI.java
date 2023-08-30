@@ -1,4 +1,4 @@
-package com.example.mangawatcher;
+package com.example.mangawatcher.apis;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -40,7 +40,7 @@ public class SyncAPI {
         } catch (MangaNotFoundException ex) {
             return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);
         } catch (DuplicateKeyException ex) {
-            return new ResponseEntity<>("{\"error_message\":\"" + ex.getRootCause().getMessage() + "\"}", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("{\"error_message\":\"" + ex.getCause().getMessage() + "\"}", HttpStatus.CONFLICT);
         }
     }
 

@@ -1,4 +1,4 @@
-package com.example.mangawatcher.db_repos;
+package com.example.mangawatcher.db.repos;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
-import com.example.mangawatcher.db_models.Chapter;
+import com.example.mangawatcher.db.models.Chapter;
 
 /**
  * 

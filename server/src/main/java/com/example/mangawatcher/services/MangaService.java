@@ -5,11 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.mongodb.MongoWriteException;
-
-import com.example.mangawatcher.db_models.Manga;
-import com.example.mangawatcher.db_repos.MangaRepo;
 import com.example.mangawatcher.exceptions.MangaNotFoundException;
 import com.example.mangawatcher.exceptions.MangaWriteException;
+import com.example.mangawatcher.db.models.Manga;
+import com.example.mangawatcher.db.repos.MangaRepo;
 
 /**
  * 
@@ -28,7 +27,7 @@ public class MangaService {
     @Autowired
     private SyncService syncService;
 
-    public List<Manga> findAllManga() {
+    public List<Manga> getAllManga() {
         return mangaRepo.findAll();
     }
 

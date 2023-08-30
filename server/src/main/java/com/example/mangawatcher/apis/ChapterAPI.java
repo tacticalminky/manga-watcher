@@ -1,4 +1,4 @@
-package com.example.mangawatcher;
+package com.example.mangawatcher.apis;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.mangawatcher.db_models.Chapter;
 import com.example.mangawatcher.exceptions.*;
+import com.example.mangawatcher.db.models.Chapter;
 import com.example.mangawatcher.services.ChapterService;
 
 /**
@@ -50,7 +50,7 @@ public class ChapterAPI {
         } catch (MangaWriteException ex) {
             return new ResponseEntity<>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.CONFLICT);
         } catch (DuplicateKeyException ex) {
-            return new ResponseEntity<>("{\"error_message\":\"" + ex.getRootCause().getMessage() + "\"}", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("{\"error_message\":\"" + ex.getCause().getMessage() + "\"}", HttpStatus.CONFLICT);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }

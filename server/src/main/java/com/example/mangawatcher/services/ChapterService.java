@@ -6,10 +6,9 @@ import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.mongodb.MongoWriteException;
-
-import com.example.mangawatcher.db_models.*;
 import com.example.mangawatcher.exceptions.*;
-import com.example.mangawatcher.db_repos.ChapterRepo;
+import com.example.mangawatcher.db.models.*;
+import com.example.mangawatcher.db.repos.ChapterRepo;
 
 /**
  * 
