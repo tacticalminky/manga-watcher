@@ -15,11 +15,11 @@ import com.example.mangawatcher.services.ChapterService;
 /**
  * 
  * @author Andrew Mink
- * @version Aug 24, 2023
+ * @version Aug 31, 2023
  * @since 1.0
  */
 @RestController
-@RequestMapping("/manga/{manga_slug}/chapters")
+@RequestMapping("/api/manga/{manga_slug}/chapters")
 public class ChapterAPI {
     @Autowired
     private ChapterService chapterService;
