@@ -19,7 +19,7 @@ services:
     image: tacticalminky/mangawatcher-backend
     build: ./server
     ports:
-      - 8080:8080
+      - 8091:8091
     environment:
       MONGODB_URI: mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@mongo:27017
       MONGODB_BD: ${MONGODB_DB}

@@ -12,7 +12,8 @@ WORKDIR /opt/app
 
 COPY --from=builder /opt/app/target/*.jar /opt/app/*.jar
 
-EXPOSE 8080
+EXPOSE 8091
+
 ENV MONGODB_URI="mongodb+srv://<username>:<password>@<clusterName>.mongodb.net"
 ENV MONGODB_DB="mangawatcher"
 ENV TELEGRAM_BOT_USERNAME="<bot_username>"
