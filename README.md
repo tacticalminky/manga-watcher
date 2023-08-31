@@ -1,9 +1,9 @@
 # Manga Watcher
 
 <!-- https://shields.io/badges -->
-
-![GitHub release (with filter)](https://img.shields.io/github/v/release/tacticalminky/manga-watcher)
-![GitHub License](https://img.shields.io/github/license/tacticalminky/manga-watcher)
+[![GitHub release](https://img.shields.io/github/v/release/tacticalminky/manga-watcher)](https://github.com/tacticalminky/manga-watcher/releases)
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/tacticalminky/manga-watcher/docker-publish.yml)
+[![GitHub License](https://img.shields.io/github/license/tacticalminky/manga-watcher)](https://github.com/tacticalminky/manga-watcher/blob/master/LICENSE)
 
 Add summary
 
@@ -46,3 +46,5 @@ TELEGRAM_CHAT_ID=
 ### Option 2: Runnigh through Docker
 
 ## Deployment
+
+<!-- NOTE: this utilizes a network called proxynet as a reverse proxy -->

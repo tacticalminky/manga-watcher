@@ -17,11 +17,11 @@ import com.mongodb.MongoWriteException;
 /**
  * 
  * @author Andrew Mink
- * @version Aug 24, 2023
+ * @version Aug 31, 2023
  * @since 1.0
  */
 @RestController
-@RequestMapping("/manga")
+@RequestMapping("/api/manga")
 public class MangaAPI {
     @Autowired
     private MangaService mangaService;

@@ -5,6 +5,8 @@ services:
     image: mongo
     ports:
       - 27017:27017
+    networks:
+      - dbnet
     volumes:
       - type: bind
         source: ${LOCAL_DB_DIR}
@@ -20,9 +22,12 @@ services:
     build: ./server
     ports:
       - 8091:8091
+    networks:
+      - dbnet
+      - apinet
     environment:
       MONGODB_URI: mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@mongo:27017
-      MONGODB_BD: ${MONGODB_DB}
+      MONGODB_DB: ${MONGODB_DB}
       TELEGRAM_BOT_USERNAME: ${TELEGRAM_BOT_USERNAME}
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
       TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID}
@@ -35,5 +40,17 @@ services:
     build: ./client
     ports:
       - 4200:80
+    networks:
+      - apinet
+      # - proxynet
     depends_on:
       - backend
+
+networks:
+  dbnet:
+    driver: bridge
+  apinet:
+    driver: bridge
+  # proxynet:
+  #   name: proxynet
+  #   external: true

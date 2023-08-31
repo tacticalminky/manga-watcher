@@ -8,7 +8,8 @@ import { Manga, Chapter } from './interfaces';
     providedIn: 'root'
 })
 export class BackendApiService {
-    private apiServerUrl = 'http://localhost:8091';
+    // private apiServerUrl = 'http://localhost:8091';
+    private apiServerUrl = `${window.location.origin}/api`;
 
     constructor(private http: HttpClient) { }
 
