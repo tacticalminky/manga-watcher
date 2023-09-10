@@ -30,12 +30,17 @@ Add summary
 
 Create an .env file to define the following
 
-```text
-MONGODB_URI=
-MONGODB_USER=
-MONGODB_PASSWORD=
+```bash
+# MongoDB ENV vars
+MONGODB_URI=        # used for local testing
+MONGODB_USER=       # used for containerized
+MONGODB_PASSWORD=   # used for containerized
 MONGODB_DB=
-LOCAL_DB_DIR=
+
+# Appdata
+APPDATA_PATH=
+
+# Telegram ENV vars
 TELEGRAM_BOT_USERNAME=
 TELEGRAM_BOT_TOKEN=
 TELEGRAM_CHAT_ID=

@@ -9,7 +9,7 @@ services:
       - dbnet
     volumes:
       - type: bind
-        source: ${LOCAL_DB_DIR}
+        source: ${APPDATA_PATH}/db
         target: /data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
