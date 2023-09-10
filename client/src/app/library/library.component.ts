@@ -22,6 +22,11 @@ export class LibraryComponent implements OnInit {
         this.apiService.getAllManga().subscribe({
             next: (res: Manga[]) => {
                 this.mangas = res;
+                this.mangas.sort((m1, m2) => {
+                    if (m1.title > m2.title) return 1;
+                    if (m1.title < m2.title) return -1;
+                    return 0;
+                });
             },
             error: (error: HttpErrorResponse) => {
                 console.error(error);
