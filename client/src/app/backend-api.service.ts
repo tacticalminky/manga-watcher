@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Manga, Chapter } from './interfaces';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class BackendApiService {
     // private apiServerUrl = 'http://localhost:8091';
-    private apiServerUrl = `${window.location.origin}/api`;
+    private apiServerUrl = `${environment.apiServerUrl}/api`;
 
     constructor(private http: HttpClient) { }
 
@@ -30,10 +31,6 @@ export class BackendApiService {
         return this.http.put<Manga>(`${this.apiServerUrl}/manga`, manga);
     }
 
-    // public deleteMangaBySlug(slug: string): Observable<JSON> {
-    //     return this.http.delete<JSON>(`${this.apiServerUrl}/manga/${slug}`);
-    // }
-
     /**     Sync API Calls          */
     public syncAllManga(): Observable<JSON> {
         return this.http.get<JSON>(`${this.apiServerUrl}/sync`);
@@ -48,19 +45,7 @@ export class BackendApiService {
         return this.http.get<Chapter[]>(`${this.apiServerUrl}/manga/${mangaSlug}/chapters`)
     }
 
-    // public addChapter(mangaSlug: string, chapter: Chapter): Observable<Chapter> {
-    //     return this.http.post<Chapter>(`${this.apiServerUrl}/manga/${mangaSlug}/chapters`, chapter);
-    // }
-
-    // public getChapterByMangaAndChapterSlug(mangaSlug: string, chapterSlug: string): Observable<Chapter> {
-    //     return this.http.get<Chapter>(`${this.apiServerUrl}/manga/${mangaSlug}/chapters${chapterSlug}`)
-    // }
-
     public updateChapter(mangaSlug: string, chapter: Chapter): Observable<Chapter> {
         return this.http.put<Chapter>(`${this.apiServerUrl}/manga/${mangaSlug}/chapters`, chapter);
     }
-
-    // public deleteChapterByMangaAndChapterSlug(mangaSlug: string, chapterSlug: string): Observable<JSON> {
-    //     return this.http.delete<JSON>(`${this.apiServerUrl}/manga/${mangaSlug}/chapters${chapterSlug}`);
-    // }
 }
