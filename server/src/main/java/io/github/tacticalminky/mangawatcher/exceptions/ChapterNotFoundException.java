@@ -1,4 +1,4 @@
-package com.example.mangawatcher.exceptions;
+package io.github.tacticalminky.mangawatcher.exceptions;
 
 public class ChapterNotFoundException extends RuntimeException {
     public ChapterNotFoundException(String mangaSlug, String chapterSlug) {

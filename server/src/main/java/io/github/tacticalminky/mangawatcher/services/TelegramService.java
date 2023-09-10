@@ -1,4 +1,4 @@
-package com.example.mangawatcher.services;
+package io.github.tacticalminky.mangawatcher.services;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import com.example.mangawatcher.db.models.Manga;
+import io.github.tacticalminky.mangawatcher.db.models.Manga;
 
 /**
  * 

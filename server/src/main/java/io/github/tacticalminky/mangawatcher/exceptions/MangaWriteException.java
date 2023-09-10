@@ -1,4 +1,4 @@
-package com.example.mangawatcher.exceptions;
+package io.github.tacticalminky.mangawatcher.exceptions;
 
 public class MangaWriteException extends RuntimeException {
     public MangaWriteException(String slug, String message) {

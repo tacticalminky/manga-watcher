@@ -1,11 +1,11 @@
-package com.example.mangawatcher.db.repos;
+package io.github.tacticalminky.mangawatcher.db.repos;
 
 import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
-import com.example.mangawatcher.db.models.Manga;
+import io.github.tacticalminky.mangawatcher.db.models.Manga;
 
 /**
  * 

@@ -1,4 +1,4 @@
-package com.example.mangawatcher.apis;
+package io.github.tacticalminky.mangawatcher.apis;
 
 import java.util.List;
 
@@ -8,9 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.mangawatcher.exceptions.*;
-import com.example.mangawatcher.db.models.Chapter;
-import com.example.mangawatcher.services.ChapterService;
+import io.github.tacticalminky.mangawatcher.exceptions.*;
+import io.github.tacticalminky.mangawatcher.db.models.Chapter;
+import io.github.tacticalminky.mangawatcher.services.ChapterService;
 
 /**
  * 

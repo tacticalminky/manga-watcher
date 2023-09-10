@@ -1,4 +1,4 @@
-package com.example.mangawatcher.exceptions;
+package io.github.tacticalminky.mangawatcher.exceptions;
 
 public class MangaNotFoundException extends RuntimeException {
     public MangaNotFoundException(String slug) {

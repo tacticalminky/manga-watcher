@@ -1,4 +1,4 @@
-package com.example.mangawatcher.services;
+package io.github.tacticalminky.mangawatcher.services;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,9 +11,10 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.mongodb.MongoWriteException;
-import com.example.mangawatcher.exceptions.ChapterWriteException;
-import com.example.mangawatcher.exceptions.MangaNotFoundException;
-import com.example.mangawatcher.db.models.*;
+
+import io.github.tacticalminky.mangawatcher.exceptions.ChapterWriteException;
+import io.github.tacticalminky.mangawatcher.exceptions.MangaNotFoundException;
+import io.github.tacticalminky.mangawatcher.db.models.*;
 
 /**
  * 

@@ -1,4 +1,4 @@
-package com.example.mangawatcher;
+package io.github.tacticalminky.mangawatcher;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.example.mangawatcher.db.models.Manga;
-import com.example.mangawatcher.services.*;
+import io.github.tacticalminky.mangawatcher.db.models.Manga;
+import io.github.tacticalminky.mangawatcher.services.*;
 
 /**
  * 

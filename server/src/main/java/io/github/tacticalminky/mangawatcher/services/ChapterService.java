@@ -1,4 +1,4 @@
-package com.example.mangawatcher.services;
+package io.github.tacticalminky.mangawatcher.services;
 
 import java.util.List;
 
@@ -6,9 +6,10 @@ import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.mongodb.MongoWriteException;
-import com.example.mangawatcher.exceptions.*;
-import com.example.mangawatcher.db.models.*;
-import com.example.mangawatcher.db.repos.ChapterRepo;
+
+import io.github.tacticalminky.mangawatcher.exceptions.*;
+import io.github.tacticalminky.mangawatcher.db.models.*;
+import io.github.tacticalminky.mangawatcher.db.repos.ChapterRepo;
 
 /**
  * 

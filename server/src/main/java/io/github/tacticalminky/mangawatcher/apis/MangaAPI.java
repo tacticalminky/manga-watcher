@@ -1,4 +1,4 @@
-package com.example.mangawatcher.apis;
+package io.github.tacticalminky.mangawatcher.apis;
 
 import java.util.List;
 
@@ -7,12 +7,12 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import com.example.mangawatcher.exceptions.MangaNotFoundException;
-import com.example.mangawatcher.exceptions.MangaWriteException;
-import com.example.mangawatcher.db.models.Manga;
-import com.example.mangawatcher.services.MangaService;
 import com.mongodb.MongoWriteException;
+
+import io.github.tacticalminky.mangawatcher.exceptions.MangaNotFoundException;
+import io.github.tacticalminky.mangawatcher.exceptions.MangaWriteException;
+import io.github.tacticalminky.mangawatcher.db.models.Manga;
+import io.github.tacticalminky.mangawatcher.services.MangaService;
 
 /**
  * 

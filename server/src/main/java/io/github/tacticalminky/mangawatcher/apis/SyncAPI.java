@@ -1,14 +1,14 @@
-package com.example.mangawatcher.apis;
+package io.github.tacticalminky.mangawatcher.apis;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import com.example.mangawatcher.exceptions.MangaNotFoundException;
-import com.example.mangawatcher.services.SyncService;
 import com.mongodb.MongoWriteException;
+
+import io.github.tacticalminky.mangawatcher.exceptions.MangaNotFoundException;
+import io.github.tacticalminky.mangawatcher.services.SyncService;
 
 /**
  * 
