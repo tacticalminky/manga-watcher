@@ -2,8 +2,13 @@ FROM eclipse-temurin:17-jdk-jammy AS builder
 
 WORKDIR /opt/app
 
-COPY . .
+COPY .mvn .mvn
+COPY mvnw pom.xml ./
+
 RUN ./mvnw dependency:go-offline
+
+COPY src src
+
 RUN ./mvnw clean install -DskipTests
 
 FROM eclipse-temurin:17-jre-alpine
@@ -16,6 +21,7 @@ EXPOSE 8091
 
 ENV MONGODB_URI="mongodb+srv://<username>:<password>@<clusterName>.mongodb.net"
 ENV MONGODB_DB="mangawatcher"
+
 ENV TELEGRAM_BOT_USERNAME="<bot_username>"
 ENV TELEGRAM_BOT_TOKEN="<token>"
 ENV TELEGRAM_CHAT_ID="<chat_id>"
