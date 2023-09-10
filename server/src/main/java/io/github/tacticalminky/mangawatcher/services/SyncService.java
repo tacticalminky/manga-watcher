@@ -51,15 +51,17 @@ public class SyncService {
                 Elements metaTags = mangaPage.getElementsByTag("meta");
                 for (Element metaTag : metaTags) {
                     if (metaTag.attr("name").equals("description")) {
-                        manga.setDescription(metaTag.attr("content"));
+                        String description = Jsoup.parse(metaTag.attr("content")).text();
+                        manga.setDescription(description);
+
+                        break;
                     }
                 }
             }
 
             /**     Update Image URL        */
             // if (!manga.isImageUrlLocked()) {
-            //     Elements imgTags = mangaPage.getElementsByTag("img");
-            //     manga.setImageUrl(imgTags.get(0).attr("data-src"));
+            //     TODO: fetch image
             // }
 
             /**     Update Chapters         */

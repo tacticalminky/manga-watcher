@@ -26,7 +26,7 @@ public class ScheduledTasts {
     @Autowired
     private TelegramService telegramService;
     
-    @Scheduled(cron = "0 0 8,12,22 * * *")
+    @Scheduled(cron = "0 0 */2 * * *")
     public void ScheduledSync() {
         List<Manga> mangas = mangaService.getAllManga();
         for (Manga manga : mangas) {
