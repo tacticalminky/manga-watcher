@@ -9,26 +9,25 @@ import { environment } from 'src/environments/environment';
     providedIn: 'root'
 })
 export class BackendApiService {
-    // private apiServerUrl = 'http://localhost:8091';
-    private apiServerUrl = `${environment.apiServerUrl}/api`;
+    private apiServerUrl = environment.apiServerUrl;
 
     constructor(private http: HttpClient) { }
 
     /**     Manga API Calls         */
     public getAllManga(): Observable<Manga[]> {
-        return this.http.get<Manga[]>(`${this.apiServerUrl}/manga`);
+        return this.http.get<Manga[]>(`${this.apiServerUrl}/api/manga`);
     }
 
     public addManga(manga: Manga): Observable<Manga> {
-        return this.http.post<Manga>(`${this.apiServerUrl}/manga`, manga);
+        return this.http.post<Manga>(`${this.apiServerUrl}/api/manga`, manga);
     }
 
     public getMangaBySlug(slug: string): Observable<Manga> {
-        return this.http.get<Manga>(`${this.apiServerUrl}/manga/${slug}`);
+        return this.http.get<Manga>(`${this.apiServerUrl}/api/manga/${slug}`);
     }
 
     public updateManga(manga: Manga): Observable<Manga> {
-        return this.http.put<Manga>(`${this.apiServerUrl}/manga`, manga);
+        return this.http.put<Manga>(`${this.apiServerUrl}/api/manga`, manga);
     }
 
     /**     Sync API Calls          */
@@ -42,10 +41,10 @@ export class BackendApiService {
 
     /**     Chapter API Calls       */
     public getChaptersByMangaSlug(mangaSlug: string): Observable<Chapter[]> {
-        return this.http.get<Chapter[]>(`${this.apiServerUrl}/manga/${mangaSlug}/chapters`)
+        return this.http.get<Chapter[]>(`${this.apiServerUrl}/api/manga/${mangaSlug}/chapters`)
     }
 
     public updateChapter(mangaSlug: string, chapter: Chapter): Observable<Chapter> {
-        return this.http.put<Chapter>(`${this.apiServerUrl}/manga/${mangaSlug}/chapters`, chapter);
+        return this.http.put<Chapter>(`${this.apiServerUrl}/api/manga/${mangaSlug}/chapters`, chapter);
     }
 }
