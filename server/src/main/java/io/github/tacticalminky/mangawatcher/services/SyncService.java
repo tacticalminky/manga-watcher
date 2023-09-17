@@ -51,7 +51,9 @@ public class SyncService {
                 Elements metaTags = mangaPage.getElementsByTag("meta");
                 for (Element metaTag : metaTags) {
                     if (metaTag.attr("name").equals("description")) {
-                        String description = Jsoup.parse(metaTag.attr("content")).text();
+                        String description = metaTag.attr("content");
+                        description = description.replace("<br>", "\n");
+                        description = Jsoup.parse(description).text();
                         manga.setDescription(description);
 
                         break;
@@ -61,7 +63,9 @@ public class SyncService {
 
             /**     Update Image URL        */
             // if (!manga.isImageUrlLocked()) {
-            //     TODO: fetch image
+            //     // TODO: fetch image
+            //     Elements imgTags = mangaPage.getElementsByTag("img");
+            //     manga.setImageUrl(imgTags.get(0).attr("data-src"));
             // }
 
             /**     Update Chapters         */
