@@ -14,14 +14,22 @@
       <div class="row row-lg-auto row-cols-auto row-cols-lg-1">
         
         <div class="col-auto my-1">
-          <button class="btn btn-primary" type="button" (click)="onSyncMangaClick()">Sync</button>
+          <button class="btn btn-primary" type="button" (click)="onSyncMangaClick()">
+            <i class="fa-solid fa-arrows-rotate"></i>
+            Sync
+          </button>
         </div>
 
-        <div class="col-auto my-1">
+        <div class="col-auto my-1" *ngIf="!countToUpdate; else updatingMangaButton">
           <button class="btn btn-primary" type="button" (click)="onMarkAllReadClick(markRead)">
             {{ markRead ? "Mark All Read" : "Mark All Unread" }}
           </button>
         </div>
+        <ng-template #updatingMangaButton>
+          <button class="btn btn-primary" type="button" disabled>
+            <i class="fa-solid fa-arrows-rotate fa-spin"></i>
+          </button>
+        </ng-template>
 
       </div>
     </div>

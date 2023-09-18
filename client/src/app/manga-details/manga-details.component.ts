@@ -15,6 +15,7 @@ export class MangaDetailsComponent implements OnInit {
     manga: Manga | undefined;
     chapters: Chapter[] | undefined;
     markRead: boolean = false;
+    countToUpdate: number = 0;
 
     constructor(
         private apiService: BackendApiService,
@@ -73,27 +74,18 @@ export class MangaDetailsComponent implements OnInit {
     }
 
     onMarkAllReadClick(read: boolean): void {
-        let countToUpdate = 0;
         this.chapters?.forEach(chapter => {
             if (chapter.isRead !== read) {
-                countToUpdate += 1;
+                this.countToUpdate += 1;
                 chapter.isRead = read;
                 this.apiService.updateChapter(chapter.mangaSlug, chapter).subscribe({
                     next: (res: Chapter) => {
-                        countToUpdate -= 1;
-                        console.log('%d left to update', countToUpdate);
+                        this.countToUpdate -= 1;
                         
                     }
                 });
             }
         });
         this.markRead = !read;
-        console.log('Updating %d chapters', countToUpdate);
-    }
-
-    private reloadComponent(): void {
-        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-            this.router.navigate(['/', 'manga', this.manga?.slug]);
-        });
     }
 }

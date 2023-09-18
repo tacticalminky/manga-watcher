@@ -5,8 +5,15 @@
     </a>
     
     <div class="navbar-nav">
-      <button class="btn btn-outline-light" type="button" (click)="onSyncAllClick()">Sync All</button>
-      <a class="btn btn-outline-light" [routerLink]="['/add-manga']">Add Manga</a>
+      <button class="btn btn-outline-light" type="button" (click)="onSyncAllClick()">
+        <i class="fa-solid fa-arrows-rotate"></i>
+        Sync All
+      </button>
+
+      <a class="btn btn-outline-light" [routerLink]="['/add-manga']">
+        <i class="fa-solid fa-plus"></i>
+        Add Manga
+      </a>
     </div>
   </div>
 </nav>
