@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 import { SyncService } from '../sync.service';
 
 @Component({
     selector: 'app-top-bar',
+    standalone: true,
+    imports: [RouterLink],
     templateUrl: './top-bar.component.html',
     styleUrls: ['./top-bar.component.css']
 })
 export class TopBarComponent {
-    
+
     constructor(private syncService: SyncService) {}
 
     onSyncAllClick(): void {

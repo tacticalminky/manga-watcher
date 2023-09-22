@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { BackendApiService } from '../backend-api.service';
 import { Manga } from '../interfaces';
@@ -8,6 +8,8 @@ import { SyncService } from '../sync.service';
 
 @Component({
     selector: 'app-add-manga-form',
+    standalone: true,
+    imports: [ReactiveFormsModule],
     templateUrl: './add-manga-form.component.html',
     styleUrls: ['./add-manga-form.component.css']
 })

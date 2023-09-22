@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgIf, NgFor } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -8,6 +9,8 @@ import { SyncService } from '../sync.service';
 
 @Component({
     selector: 'app-manga-details',
+    standalone: true,
+    imports: [NgIf, NgFor],
     templateUrl: './manga-details.component.html',
     styleUrls: ['./manga-details.component.css']
 })
@@ -81,7 +84,7 @@ export class MangaDetailsComponent implements OnInit {
                 this.apiService.updateChapter(chapter.mangaSlug, chapter).subscribe({
                     next: (res: Chapter) => {
                         this.countToUpdate -= 1;
-                        
+
                     }
                 });
             }

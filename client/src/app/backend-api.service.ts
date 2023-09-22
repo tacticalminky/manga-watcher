@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Manga, Chapter } from './interfaces';
@@ -34,7 +34,7 @@ export class BackendApiService {
     public syncAllManga(): Observable<JSON> {
         return this.http.get<JSON>(`${this.apiServerUrl}/sync`);
     }
-    
+
     public syncMangaBySlug(slug: string): Observable<JSON> {
         return this.http.get<JSON>(`${this.apiServerUrl}/sync/${slug}`);
     }

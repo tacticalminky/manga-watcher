@@ -33,7 +33,7 @@ services:
       TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID}
     depends_on:
       - mongo
-  
+
   frontend:
     container_name: mangawatcher-frontend
     image: tacticalminky/mangawatcher-frontend
