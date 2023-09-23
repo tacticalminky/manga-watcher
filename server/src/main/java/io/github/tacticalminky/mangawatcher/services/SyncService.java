@@ -17,7 +17,7 @@ import io.github.tacticalminky.mangawatcher.exceptions.MangaNotFoundException;
 import io.github.tacticalminky.mangawatcher.db.models.*;
 
 /**
- * 
+ *
  * @author Andrew Mink
  * @version Aug 24, 2023
  * @since 1.0
@@ -46,29 +46,25 @@ public class SyncService {
         try {
             Document mangaPage = Jsoup.connect(manga.getUrl()).get();
 
-            /**     Update Description      */
+            /** Update Description */
             if (!manga.isDescriptionLocked()) {
                 Elements metaTags = mangaPage.getElementsByTag("meta");
                 for (Element metaTag : metaTags) {
                     if (metaTag.attr("name").equals("description")) {
-                        String description = metaTag.attr("content");
-                        description = description.replace("<br>", "\n");
-                        description = Jsoup.parse(description).text();
-                        manga.setDescription(description);
-
+                        manga.setDescription(metaTag.attr("content"));
                         break;
                     }
                 }
             }
 
-            /**     Update Image URL        */
+            /** Update Image URL */
             // if (!manga.isImageUrlLocked()) {
-            //     // TODO: fetch image
+            // // TODO: fetch image
             //     Elements imgTags = mangaPage.getElementsByTag("img");
             //     manga.setImageUrl(imgTags.get(0).attr("data-src"));
             // }
 
-            /**     Update Chapters         */
+            /** Update Chapters */
             List<String> addedChapters = new ArrayList<String>();
 
             Element chaptersDiv = mangaPage.getElementById("chapters");
@@ -77,7 +73,8 @@ public class SyncService {
                 try {
                     Chapter createdChapter = chapterService.addChapterFromLinkElement(manga.getSlug(), link);
                     addedChapters.add(createdChapter.getSlug());
-                } catch (ChapterWriteException ex) {}
+                } catch (ChapterWriteException ex) {
+                }
             }
 
             mangaService.updateManga(manga);
