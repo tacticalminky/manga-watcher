@@ -12,7 +12,9 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import io.github.tacticalminky.mangawatcher.db.models.Manga;
 
 /**
- * 
+ * TODO: allow for disabling Telegram notifications
+ * TODO: validate token, username, and id
+ *
  * @author Andrew Mink
  * @version Aug 29, 2023
  * @since 1.0
@@ -38,6 +40,8 @@ public class TelegramService extends TelegramLongPollingBot {
     }
 
     public void notifyOfMangaUpdate(Manga manga, List<String> addedChapters) {
+        // TODO: validate manga and addedChapters
+
         String text = manga.getTitle() + " was updated.\n";
 
         if (addedChapters.size() == 1) {
@@ -56,7 +60,7 @@ public class TelegramService extends TelegramLongPollingBot {
         SendMessage message = new SendMessage(TELEGRAM_CHAT_ID, text);
         try {
             execute(message);
-        } catch (TelegramApiException ex) { }
+        } catch (TelegramApiException ex) {}
     }
 
 }
