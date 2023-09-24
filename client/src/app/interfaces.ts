@@ -1,3 +1,5 @@
+// TODO: update
+
 export interface Manga {
     title: string;
     slug: string;

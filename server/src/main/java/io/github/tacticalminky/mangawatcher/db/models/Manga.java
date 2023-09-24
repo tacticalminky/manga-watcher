@@ -1,39 +1,49 @@
 package io.github.tacticalminky.mangawatcher.db.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 /**
  * Database Model for Manga
- * 
+ *
  * @author Andrew Mink
  * @version Aug 24, 2023
  * @since 1.0
  */
 @Document("manga")
 public class Manga implements Serializable {
-
-    @Indexed(unique = true)
-    private String title;
+    // TODO: add Chapter collection to list
 
     @MongoId
     private String slug;
+
+    @Indexed(unique = true)
+    private String title;
 
     @Indexed(unique = true)
     private String url;
 
     private String description;
 
+    @Field("image_url")
     private String imageUrl;
 
+    @Field("is_monitored")
     private boolean isMonitored = true;
 
+    @Field("is_description_locked")
     private boolean isDescriptionLocked = false;
 
+    @Field("is_image_url_locked")
     private boolean isImageUrlLocked = false;
+
+    private List<Chapter> chapters;
 
     /**
      * Blank class constructor
@@ -44,7 +54,7 @@ public class Manga implements Serializable {
 
     /**
      * Minimum class constructor
-     * 
+     *
      * @param title the title of the manga
      * @param url   the url for the manga
      */
@@ -52,11 +62,13 @@ public class Manga implements Serializable {
         super();
         this.title = title;
         this.url = url;
+
+        this.chapters = new ArrayList<>();
     }
 
     /**
      * Full class constructor
-     * 
+     *
      * @param title       the manga's title
      * @param url         the manga's url
      * @param description the description of the manga's plot
@@ -70,14 +82,8 @@ public class Manga implements Serializable {
         this.description = description;
         this.imageUrl = imageUrl;
         this.isMonitored = isMonitored;
-    }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+        this.chapters = new ArrayList<>();
     }
 
     public String getSlug() {
@@ -86,6 +92,14 @@ public class Manga implements Serializable {
 
     public void setSlug(String slug) {
         this.slug = slug;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getUrl() {
@@ -132,11 +146,17 @@ public class Manga implements Serializable {
         this.isImageUrlLocked = isImageUrlLocked;
     }
 
-    @Override
-    public String toString() {
-        return String.format(
-                "Manga{title=%s, slug=%s, url=%s, description=%s, imageUrl=%s}",
-                title, slug, url, description, imageUrl);
+    // TODO: getters and setters for chapters
+    public List<Chapter> getChapters() {
+        return chapters;
+    }
+
+    public void addChapter(Chapter chapter) {
+        chapters.add(chapter);
+    }
+
+    public void updateChapter(Chapter chapter) {
+        // TODO: implement
     }
 
 }

@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import io.github.tacticalminky.mangawatcher.exceptions.*;
 import io.github.tacticalminky.mangawatcher.db.models.Chapter;
-import io.github.tacticalminky.mangawatcher.services.ChapterService;
+import io.github.tacticalminky.mangawatcher.services.MangaService;
 
 /**
- * 
+ *
  * @author Andrew Mink
  * @version Aug 31, 2023
  * @since 1.0
@@ -22,12 +22,12 @@ import io.github.tacticalminky.mangawatcher.services.ChapterService;
 @RequestMapping("/api/manga/{manga_slug}/chapters")
 public class ChapterAPI {
     @Autowired
-    private ChapterService chapterService;
+    private MangaService mangaService;
 
     @GetMapping
     public ResponseEntity<?> getAllChaptersByMangaSlug(@PathVariable("manga_slug") String mangaSlug) {
         try {
-            List<Chapter> chapters = chapterService.findAllChaptersByMangaSlug(mangaSlug);
+            List<Chapter> chapters = mangaService.findAllChaptersByMangaSlug(mangaSlug);
             return new ResponseEntity<List<Chapter>>(chapters, HttpStatus.OK);
         } catch (MangaNotFoundException ex) {
             return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);
@@ -36,14 +36,8 @@ public class ChapterAPI {
 
     @PostMapping
     public ResponseEntity<?> addChapter(@PathVariable("manga_slug") String mangaSlug, @RequestBody Chapter chapter) {
-        if (!chapter.getMangaSlug().equals(mangaSlug)) {
-            String message = "The managa slug must match between the URI and chapter body";
-            return new ResponseEntity<String>("{\"error_message\":\"" + message + "\"}", HttpStatus.BAD_REQUEST);
-        }
-        
         try {
-            chapter.setMangaSlug(mangaSlug);
-            Chapter createdChapter = chapterService.addChapter(chapter);
+            Chapter createdChapter = mangaService.addChapter(mangaSlug, chapter);
             return new ResponseEntity<Chapter>(createdChapter, HttpStatus.CREATED);
         } catch (MangaNotFoundException ex) {
             return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);
@@ -59,7 +53,7 @@ public class ChapterAPI {
     @GetMapping("/{chapter_slug}")
     public ResponseEntity<?> getChapterByMangaAndChapterSlug(@PathVariable("manga_slug") String mangaSlug, @PathVariable("chapter_slug") String slug) {
         try {
-            Chapter chapter = chapterService.findChapterByMangaAndChapterSlug(mangaSlug, slug);
+            Chapter chapter = mangaService.findChapterByMangaAndChapterSlug(mangaSlug, slug);
             return new ResponseEntity<Chapter>(chapter, HttpStatus.OK);
         } catch (MangaNotFoundException | ChapterNotFoundException ex) {
             return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);
@@ -68,13 +62,8 @@ public class ChapterAPI {
 
     @PutMapping
     public ResponseEntity<?> updateChatper(@PathVariable("manga_slug") String mangaSlug, @RequestBody Chapter chapter) {
-        if (!chapter.getMangaSlug().equals(mangaSlug)) {
-            String message = "The managa slug must match between the URI and chapter body";
-            return new ResponseEntity<String>("{\"error_message\":\"" + message + "\"}", HttpStatus.BAD_REQUEST);
-        }
-
         try {
-            Chapter updatedChapter = chapterService.updateChapter(chapter);
+            Chapter updatedChapter = mangaService.updateChapter(mangaSlug, chapter);
             return new ResponseEntity<Chapter>(updatedChapter, HttpStatus.OK);
         } catch (MangaNotFoundException | ChapterNotFoundException ex) {
             return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);
@@ -88,7 +77,7 @@ public class ChapterAPI {
     @DeleteMapping("/{chapter_slug}")
     public ResponseEntity<String> deleteChapterByMangaAndChapterSlug(@PathVariable("manga_slug") String mangaSlug, @PathVariable("chapter_slug") String slug) {
         try {
-            chapterService.deleteChapterByMangaAndChapterSlug(mangaSlug, slug);
+            mangaService.deleteChapterByMangaAndChapterSlug(mangaSlug, slug);
             return new ResponseEntity<String>("{\"message\":\"success\"}", HttpStatus.OK);
         } catch (MangaNotFoundException | ChapterNotFoundException ex) {
             return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);

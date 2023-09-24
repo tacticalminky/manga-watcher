@@ -27,8 +27,8 @@ public class SyncService {
     @Autowired
     private MangaService mangaService;
 
-    @Autowired
-    private ChapterService chapterService;
+    // @Autowired
+    // private ChapterService chapterService;
 
     public void syncAllManga() throws MongoWriteException {
         List<Manga> magnas = mangaService.getAllManga();
@@ -57,13 +57,6 @@ public class SyncService {
                 }
             }
 
-            /** Update Image URL */
-            // if (!manga.isImageUrlLocked()) {
-            // // TODO: fetch image
-            //     Elements imgTags = mangaPage.getElementsByTag("img");
-            //     manga.setImageUrl(imgTags.get(0).attr("data-src"));
-            // }
-
             /** Update Chapters */
             List<String> addedChapters = new ArrayList<String>();
 
@@ -71,7 +64,7 @@ public class SyncService {
             Elements links = chaptersDiv.getElementsByTag("a");
             for (Element link : links) {
                 try {
-                    Chapter createdChapter = chapterService.addChapterFromLinkElement(manga.getSlug(), link);
+                    Chapter createdChapter = mangaService.addChapterFromLinkElement(manga.getSlug(), link);
                     addedChapters.add(createdChapter.getSlug());
                 } catch (ChapterWriteException ex) {
                 }
