@@ -15,8 +15,8 @@ import io.github.tacticalminky.mangawatcher.services.MangaService;
 /**
  *
  * @author Andrew Mink
- * @version Aug 31, 2023
- * @since 1.0
+ * @version Sept 30, 2023
+ * @since 1.0.0-b.4
  */
 @RestController
 @RequestMapping("/api/manga/{manga_slug}/chapters")
@@ -28,6 +28,7 @@ public class ChapterAPI {
     public ResponseEntity<?> getAllChaptersByMangaSlug(@PathVariable("manga_slug") String mangaSlug) {
         try {
             List<Chapter> chapters = mangaService.findAllChaptersByMangaSlug(mangaSlug);
+
             return new ResponseEntity<List<Chapter>>(chapters, HttpStatus.OK);
         } catch (MangaNotFoundException ex) {
             return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);
@@ -38,6 +39,7 @@ public class ChapterAPI {
     public ResponseEntity<?> addChapter(@PathVariable("manga_slug") String mangaSlug, @RequestBody Chapter chapter) {
         try {
             Chapter createdChapter = mangaService.addChapter(mangaSlug, chapter);
+
             return new ResponseEntity<Chapter>(createdChapter, HttpStatus.CREATED);
         } catch (MangaNotFoundException ex) {
             return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);
@@ -54,6 +56,7 @@ public class ChapterAPI {
     public ResponseEntity<?> getChapterByMangaAndChapterSlug(@PathVariable("manga_slug") String mangaSlug, @PathVariable("chapter_slug") String slug) {
         try {
             Chapter chapter = mangaService.findChapterByMangaAndChapterSlug(mangaSlug, slug);
+
             return new ResponseEntity<Chapter>(chapter, HttpStatus.OK);
         } catch (MangaNotFoundException | ChapterNotFoundException ex) {
             return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);
@@ -64,6 +67,7 @@ public class ChapterAPI {
     public ResponseEntity<?> updateChatper(@PathVariable("manga_slug") String mangaSlug, @RequestBody Chapter chapter) {
         try {
             Chapter updatedChapter = mangaService.updateChapter(mangaSlug, chapter);
+
             return new ResponseEntity<Chapter>(updatedChapter, HttpStatus.OK);
         } catch (MangaNotFoundException | ChapterNotFoundException ex) {
             return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);
@@ -78,6 +82,7 @@ public class ChapterAPI {
     public ResponseEntity<String> deleteChapterByMangaAndChapterSlug(@PathVariable("manga_slug") String mangaSlug, @PathVariable("chapter_slug") String slug) {
         try {
             mangaService.deleteChapterByMangaAndChapterSlug(mangaSlug, slug);
+
             return new ResponseEntity<String>("{\"message\":\"success\"}", HttpStatus.OK);
         } catch (MangaNotFoundException | ChapterNotFoundException ex) {
             return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);

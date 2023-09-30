@@ -1,69 +1,36 @@
 package io.github.tacticalminky.mangawatcher.db.models;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
 /**
- * Database Model for Manga
+ * The full database model for Manga
  *
  * @author Andrew Mink
- * @version Aug 24, 2023
- * @since 1.0
+ * @version Sept 30, 2023
+ * @since 1.0.0-b.4
  */
 @Document("manga")
-public class Manga implements Serializable {
-    // TODO: add Chapter collection to list
+public class Manga extends MinimalManga {
+    private String description, imageUrl;
 
-    @MongoId
-    private String slug;
-
-    @Indexed(unique = true)
-    private String title;
-
-    @Indexed(unique = true)
-    private String url;
-
-    private String description;
-
-    @Field("image_url")
-    private String imageUrl;
-
-    @Field("is_monitored")
     private boolean isMonitored = true;
-
-    @Field("is_description_locked")
     private boolean isDescriptionLocked = false;
-
-    @Field("is_image_url_locked")
     private boolean isImageUrlLocked = false;
 
-    private List<Chapter> chapters;
+    private Set<Chapter> chapters = new HashSet<>();
 
     /**
-     * Blank class constructor
-     */
-    public Manga() {
-        super();
-    }
-
-    /**
-     * Minimum class constructor
+     * Minimal class constructor
      *
      * @param title the title of the manga
      * @param url   the url for the manga
      */
     public Manga(String title, String url) {
-        super();
-        this.title = title;
-        this.url = url;
-
-        this.chapters = new ArrayList<>();
+        super(title, url);
     }
 
     /**
@@ -76,34 +43,11 @@ public class Manga implements Serializable {
      * @param isMonitored the monitored status of the manga
      */
     public Manga(String title, String url, String description, String imageUrl, boolean isMonitored) {
-        super();
-        this.title = title;
-        this.url = url;
+        super(title, url);
+
         this.description = description;
         this.imageUrl = imageUrl;
         this.isMonitored = isMonitored;
-
-        this.chapters = new ArrayList<>();
-    }
-
-    public String getSlug() {
-        return slug;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getUrl() {
-        return url;
     }
 
     public String getDescription() {
@@ -146,9 +90,8 @@ public class Manga implements Serializable {
         this.isImageUrlLocked = isImageUrlLocked;
     }
 
-    // TODO: getters and setters for chapters
-    public List<Chapter> getChapters() {
-        return chapters;
+    public Set<Chapter> getChapters() {
+        return Collections.unmodifiableSet(chapters);
     }
 
     public void addChapter(Chapter chapter) {
@@ -156,7 +99,12 @@ public class Manga implements Serializable {
     }
 
     public void updateChapter(Chapter chapter) {
-        // TODO: implement
+        for (Chapter chap: chapters) {
+            if (chapter.equals(chap)) {
+                chap = chapter;
+                break;
+            }
+        }
     }
 
 }

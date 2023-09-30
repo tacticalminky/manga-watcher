@@ -19,8 +19,8 @@ import io.github.tacticalminky.mangawatcher.db.models.*;
 /**
  *
  * @author Andrew Mink
- * @version Aug 24, 2023
- * @since 1.0
+ * @version Sept 30, 2023
+ * @since 1.0.0-b.4
  */
 @Service
 public class SyncService {
@@ -31,14 +31,15 @@ public class SyncService {
     // private ChapterService chapterService;
 
     public void syncAllManga() throws MongoWriteException {
-        List<Manga> magnas = mangaService.getAllManga();
+        List<Manga> magnas = mangaService.getAllFullManga();
         for (Manga manga : magnas) {
             syncManga(manga);
         }
     }
 
     public void syncMangaBySlug(String slug) throws MangaNotFoundException, MongoWriteException {
-        Manga manga = mangaService.findMangaBySlug(slug);
+        Manga manga = mangaService.findFullMangaBySlug(slug);
+
         syncManga(manga);
     }
 

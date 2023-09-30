@@ -17,7 +17,7 @@ import io.github.tacticalminky.mangawatcher.db.models.Manga;
  *
  * @author Andrew Mink
  * @version Aug 29, 2023
- * @since 1.0
+ * @since 1.0.0-b.0
  */
 @Service
 public class TelegramService extends TelegramLongPollingBot {

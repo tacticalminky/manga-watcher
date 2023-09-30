@@ -6,35 +6,42 @@ import java.util.Optional;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
-import io.github.tacticalminky.mangawatcher.db.models.Chapter;
-import io.github.tacticalminky.mangawatcher.db.models.Manga;
+import io.github.tacticalminky.mangawatcher.db.models.*;
 
 /**
+ * The repository for interacting with the manga collection in the database
  *
  * @author Andrew Mink
- * @version Aug 19, 2023
- * @since 1.0
+ * @version Sept 30, 2023
+ * @since 1.0.0-b.4
  */
 public interface MangaRepo extends MongoRepository<Manga, String> {
-    final String commonMangaFields = "{ slug: 1, title: 1, url: 1, description: 1, image_rl: 1, is_monitored: 1, is_description_locked: 1, is_image_url_locked: 1 }";
-    final String commonChapterFields = "{ chapters.slug: 1,  chapters.name: 1, chapters.url: 1, is_read: 1 }";
+    final String minimalMangaFields = "{ slug: 1, title: 1, url: 1, imageUrl: 1 }";
+    final String baseMangaFields = "{ slug: 1, title: 1, url: 1, description: 1, imageUrl: 1, isMonitored: 1, isDescriptionLocked: 1, isImageUrlLocked: 1 }";
 
-    @Query(value = "{}", fields = commonMangaFields, sort = "{ title: 1 }")
-    List<Manga> findAllMangas();
+    final String baseChapterFields = "{ chapters.slug: 1,  chapters.name: 1, chapters.url: 1, chapters.isRead: 1 }";
 
-    @Query(value = "{ slug: ?0 }")
-    Optional<Manga> findMangaBySlug(String slug);
+    /** Queries for manga */
+    @Query(fields = minimalMangaFields, sort = "{ title: 1 }")
+    List<Manga> findAllMinimalMangas();
 
-    @Query(value = "{ slug: ?0 }", fields = commonMangaFields)
-    Optional<Manga> findMinimalMangaBySlug(String slug);
+    @Query(fields = minimalMangaFields, sort = "{ title: 1 }")
+    List<Manga> findAllFullMangas();
+
+    @Query(value = "{ slug: ?0 }", fields = baseMangaFields)
+    Optional<Manga> findBaseMangaBySlug(String slug);
+
+    @Query(value = "{ slug: ?0 }", sort = "{ chapter.number: -1 }")
+    Optional<Manga> findFullMangaBySlug(String slug);
 
     @Query(value = "{ slug: ?0 }", delete = true)
     Optional<Manga> deleteMangaBySlug(String slug);
 
-    @Query(value = "{ slug: ?0 }", fields = commonChapterFields, sort = "{ chapter.number: -1 }")
+    /** Queries for chapters */
+    @Query(value = "{ slug: ?0 }", fields = baseChapterFields, sort = "{ chapter.number: -1 }")
     List<Chapter> findAllChaptersByMangaSlug(String slug);
 
-    @Query(value = "{ slug: ?0, chapters.slug: ?1 }", fields = commonChapterFields)
+    @Query(value = "{ slug: ?0, chapters.slug: ?1 }", fields = baseChapterFields)
     Optional<Chapter> findChapterByMangaAndChapterSlug(String slug, String chapterSlug);
 
     @Query(value = "{ slug: ?0 }", delete = true)
