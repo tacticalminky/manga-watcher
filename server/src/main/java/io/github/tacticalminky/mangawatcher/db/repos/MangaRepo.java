@@ -12,7 +12,7 @@ import io.github.tacticalminky.mangawatcher.db.models.*;
  * The repository for interacting with the manga collection in the database
  *
  * @author Andrew Mink
- * @version Sept 30, 2023
+ * @version Oct 1, 2023
  * @since 1.0.0-b.4
  */
 public interface MangaRepo extends MongoRepository<Manga, String> {
@@ -22,16 +22,17 @@ public interface MangaRepo extends MongoRepository<Manga, String> {
     final String baseChapterFields = "{ chapters.slug: 1,  chapters.name: 1, chapters.url: 1, chapters.isRead: 1 }";
 
     /** Queries for manga */
-    @Query(fields = minimalMangaFields, sort = "{ title: 1 }")
-    List<Manga> findAllMinimalMangas();
 
-    @Query(fields = minimalMangaFields, sort = "{ title: 1 }")
-    List<Manga> findAllFullMangas();
+    /**
+     * @return a list of manga in the form: { slug, title, url, imageUrl }
+     */
+    @Query(value = "{ slug: { $regex: ?0 } }", fields = minimalMangaFields, sort = "{ title: 1 }")
+    List<MinimalManga> findAllAsMinimalMangaByRegex(String regex);
 
     @Query(value = "{ slug: ?0 }", fields = baseMangaFields)
     Optional<Manga> findBaseMangaBySlug(String slug);
 
-    @Query(value = "{ slug: ?0 }", sort = "{ chapter.number: -1 }")
+    @Query(value = "{ slug: ?0 }")
     Optional<Manga> findFullMangaBySlug(String slug);
 
     @Query(value = "{ slug: ?0 }", delete = true)

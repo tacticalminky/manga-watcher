@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
  * An abstract model for the Manga and Chapter database models.
  *
  * @author Andrew Mink
- * @version Sept 30, 2023
+ * @version Oct 1, 2023
  * @since 1.0.0-b.4
  */
 public class AbstractModel implements Serializable {
@@ -19,6 +19,8 @@ public class AbstractModel implements Serializable {
 
     @Indexed(unique = true)
     private String url;
+
+    public AbstractModel() {}
 
     public AbstractModel(String url) {
         Assert.hasText(url, "The url must be provided with text");
@@ -31,7 +33,7 @@ public class AbstractModel implements Serializable {
     }
 
     public void setSlug(String slug) {
-        Assert.isNull(slug, "You can not change the slug once it is set");
+        Assert.isNull(this.slug, "You can not change the slug once it is set");
 
         this.slug = slug;
     }

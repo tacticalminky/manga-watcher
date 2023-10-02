@@ -4,13 +4,15 @@ package io.github.tacticalminky.mangawatcher.db.models;
  * Database Model for Chapters
  *
  * @author Andrew Mink
- * @version Sept 30, 2023
+ * @version Oct 1, 2023
  * @since 1.0.0-b.4
  */
 public class Chapter extends AbstractModel {
     private float number;
 
     private boolean isRead = false;
+
+    public Chapter() {}
 
     /**
      * Minimal class constructor

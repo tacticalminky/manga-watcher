@@ -5,16 +5,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.util.Assert;
 
 /**
  * The full database model for Manga
  *
  * @author Andrew Mink
- * @version Sept 30, 2023
+ * @version Oct 1, 2023
  * @since 1.0.0-b.4
  */
 @Document("manga")
-public class Manga extends MinimalManga {
+public class Manga extends NewManga {
     private String description, imageUrl;
 
     private boolean isMonitored = true;
@@ -22,6 +23,8 @@ public class Manga extends MinimalManga {
     private boolean isImageUrlLocked = false;
 
     private Set<Chapter> chapters = new HashSet<>();
+
+    public Manga() {}
 
     /**
      * Minimal class constructor
@@ -94,13 +97,18 @@ public class Manga extends MinimalManga {
         return Collections.unmodifiableSet(chapters);
     }
 
-    public void addChapter(Chapter chapter) {
-        chapters.add(chapter);
+    // returns true if successfully added a new chapter
+    public boolean addChapter(Chapter chapter) {
+        Assert.notNull(chapter, "Chapter must not be null");
+
+        return chapters.add(chapter);
     }
 
     public void updateChapter(Chapter chapter) {
         for (Chapter chap: chapters) {
             if (chapter.equals(chap)) {
+                Assert.isTrue(chapter.getUrl().equals(chap.getUrl()), "The chapter's url can not change");
+
                 chap = chapter;
                 break;
             }
