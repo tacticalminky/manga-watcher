@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { BackendApiService } from '../backend-api.service';
-import { Manga } from '../interfaces';
+import { NewManga } from '../manga-models';
 import { SyncService } from '../sync.service';
 
 @Component({
@@ -27,20 +27,16 @@ export class AddMangaFormComponent {
     ) { }
 
     onSubmit(): void {
-        const manga: Manga = {
+        const manga: NewManga = {
             title: String(this.addMangaForm.value.title),
-            slug: String(null),
             url: String(this.addMangaForm.value.url)
         };
         this.addManga(manga);
         this.addMangaForm.reset();
     }
 
-    private addManga(manga: Manga): void {
+    private addManga(manga: NewManga): void {
         this.apiService.addManga(manga).subscribe({
-            next: (res: Manga) => {
-                this.syncService.syncManga(res);
-            },
             error: (error: HttpErrorResponse) => {
                 alert(error.message);
             }

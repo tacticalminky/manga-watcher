@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Manga, Chapter } from './interfaces';
+import { Chapter, Manga, MinimalManga, NewManga } from './manga-models';
 import { environment } from 'src/environments/environment';
-
-// TODO: update
 
 @Injectable({
     providedIn: 'root'
@@ -16,11 +14,11 @@ export class BackendApiService {
     constructor(private http: HttpClient) { }
 
     /**     Manga API Calls         */
-    public getAllManga(): Observable<Manga[]> {
-        return this.http.get<Manga[]>(`${this.apiServerUrl}/api/manga`);
+    public getAllManga(): Observable<MinimalManga[]> {
+        return this.http.get<MinimalManga[]>(`${this.apiServerUrl}/api/manga`);
     }
 
-    public addManga(manga: Manga): Observable<Manga> {
+    public addManga(manga: NewManga): Observable<Manga> {
         return this.http.post<Manga>(`${this.apiServerUrl}/api/manga`, manga);
     }
 
@@ -30,6 +28,10 @@ export class BackendApiService {
 
     public updateManga(manga: Manga): Observable<Manga> {
         return this.http.put<Manga>(`${this.apiServerUrl}/api/manga`, manga);
+    }
+
+    public deleteManga(slug: string): Observable<JSON> {
+        return this.http.delete<JSON>(`${this.apiServerUrl}/api/manga/${slug}`);
     }
 
     /**     Sync API Calls          */
@@ -42,10 +44,6 @@ export class BackendApiService {
     }
 
     /**     Chapter API Calls       */
-    public getChaptersByMangaSlug(mangaSlug: string): Observable<Chapter[]> {
-        return this.http.get<Chapter[]>(`${this.apiServerUrl}/api/manga/${mangaSlug}/chapters`)
-    }
-
     public updateChapter(mangaSlug: string, chapter: Chapter): Observable<Chapter> {
         return this.http.put<Chapter>(`${this.apiServerUrl}/api/manga/${mangaSlug}/chapters`, chapter);
     }
