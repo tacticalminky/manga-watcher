@@ -11,10 +11,7 @@ import com.mongodb.MongoWriteException;
 
 
 import io.github.tacticalminky.mangawatcher.exceptions.*;
-
-import io.github.tacticalminky.mangawatcher.db.models.NewManga;
-import io.github.tacticalminky.mangawatcher.db.models.Manga;
-import io.github.tacticalminky.mangawatcher.db.models.MinimalManga;
+import io.github.tacticalminky.mangawatcher.db.models.*;
 import io.github.tacticalminky.mangawatcher.services.MangaService;
 
 /**
@@ -46,6 +43,8 @@ public class MangaAPI {
 
     /**
      * Post mapping for adding a manga
+     *
+     * TODO: consolidate the conflict returns (they are all dup keys)
      *
      * @param manga
      *  the manga to add
@@ -88,7 +87,7 @@ public class MangaAPI {
     @GetMapping("/{slug}")
     public ResponseEntity<?> getMangaBySlug(@PathVariable("slug") String slug) {
         try {
-            Manga manga = mangaService.getBaseMangaBySlug(slug);
+            Manga manga = mangaService.getMangaBySlug(slug);
 
             return new ResponseEntity<Manga>(manga, HttpStatus.OK);
         } catch (MangaNotFoundException ex) {
@@ -116,6 +115,33 @@ public class MangaAPI {
             return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);
         } catch (MangaWriteException ex) {
             return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.CONFLICT);
+        }
+    }
+
+    /**
+     * Put mapping for updating a chapter
+     *
+     * @param mangaSlug
+     *  the manga's slug
+     * @param chapter
+     *  the updated chapter
+     *
+     * @return http response with the updated chapter or error message
+     *
+     * @see MangaService#updateChapter(String, Chapter)
+     */
+    @PutMapping("/{slug}/chapters")
+    public ResponseEntity<?> updateChatper(@PathVariable("slug") String slug, @RequestBody Chapter chapter) {
+        try {
+            Chapter updatedChapter = mangaService.updateChapter(slug, chapter);
+
+            return new ResponseEntity<Chapter>(updatedChapter, HttpStatus.OK);
+        } catch (MangaNotFoundException | ChapterNotFoundException ex) {
+            return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);
+        } catch (ChapterWriteException ex) {
+            return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.CONFLICT);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

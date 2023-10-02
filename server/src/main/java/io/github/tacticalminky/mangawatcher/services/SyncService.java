@@ -17,6 +17,7 @@ import io.github.tacticalminky.mangawatcher.exceptions.MangaNotFoundException;
 import io.github.tacticalminky.mangawatcher.db.models.*;
 
 /**
+ * The sync service used to sync manga
  *
  * @author Andrew Mink
  * @version Oct 1, 2023
@@ -52,7 +53,7 @@ public class SyncService {
      *  when manga database update fails
      */
     public void syncMangaBySlug(String slug) throws MangaNotFoundException, MongoWriteException {
-        Manga manga = mangaService.getFullMangaBySlug(slug);
+        Manga manga = mangaService.getMangaBySlug(slug);
 
         syncManga(manga);
     }

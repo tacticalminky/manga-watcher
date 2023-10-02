@@ -2,6 +2,7 @@ package io.github.tacticalminky.mangawatcher.db.models;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -97,6 +98,16 @@ public class Manga extends NewManga {
         return Collections.unmodifiableSet(chapters);
     }
 
+    public Optional<Chapter> getChapter(String slug) {
+        for (Chapter chapter: chapters) {
+            if (chapter.getSlug().equals(slug)) {
+                return Optional.of(chapter);
+            }
+        }
+
+        return Optional.empty();
+    }
+
     // returns true if successfully added a new chapter
     public boolean addChapter(Chapter chapter) {
         Assert.notNull(chapter, "Chapter must not be null");
@@ -104,15 +115,11 @@ public class Manga extends NewManga {
         return chapters.add(chapter);
     }
 
-    public void updateChapter(Chapter chapter) {
-        for (Chapter chap: chapters) {
-            if (chapter.equals(chap)) {
-                Assert.isTrue(chapter.getUrl().equals(chap.getUrl()), "The chapter's url can not change");
+    // returns true if successfully updated the chapter
+    public boolean updateChapter(Chapter chapter) {
+        if (!chapters.remove(chapter)) return false;
 
-                chap = chapter;
-                break;
-            }
-        }
+        return addChapter(chapter);
     }
 
 }

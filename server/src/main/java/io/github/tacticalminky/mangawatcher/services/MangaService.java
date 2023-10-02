@@ -31,9 +31,9 @@ public class MangaService {
     /**
      * Gets a list of all manga
      *
-     * @return a list of manga in a minimal form
+     * @return a list of manga in their minimal form
      *
-     * @see MangaRepo#findAllMinimalManga()
+     * @see MangaRepo#findAllAsMinimalMangaByRegex()
      */
     public List<MinimalManga> getAllAsMinimalManga() {
         return mangaRepo.findAllAsMinimalMangaByRegex(".");
@@ -43,16 +43,15 @@ public class MangaService {
      * Gets a list of all manga
      *
      * @return a list of manga in their full form
-     *
-     * @see MangaRepo#findAllFullMangas()
      */
     public List<Manga> getAllAsFullManga() {
         return mangaRepo.findAll(Sort.by("title"));
-        // return mangaRepo.findAllFullManga();
     }
 
     /**
      * Adds a new manga to the database
+     *
+     * TODO: probably don't need to get the manga
      *
      * @param newManga
      *  a minimal representation of the manga to be added (title and url)
@@ -70,7 +69,7 @@ public class MangaService {
         manga.setSlug(slug);
 
         try {
-            getFullMangaBySlug(manga.getSlug());
+            getMangaBySlug(manga.getSlug());
 
             String message = "Manga already exists, can't create new";
             throw new MangaWriteException(manga.getSlug(), message);
@@ -88,33 +87,13 @@ public class MangaService {
      * @param slug
      *  the manga's slug
      *
-     * @return the base form of the manga (excludes the list of chapters)
+     * @return the manga
      *
      * @throws MangaNotFoundException
      *  when the manga does not exist in the database
-     *
-     * @see MangaRepo#findBaseMangaBySlug()
      */
-    public Manga getBaseMangaBySlug(String slug) throws MangaNotFoundException {
-        return mangaRepo.findBaseMangaBySlug(slug)
-            .orElseThrow(() -> new MangaNotFoundException(slug));
-    }
-
-    /**
-     * Finds the manga with the provided slug
-     *
-     * @param slug
-     *  the manga's slug
-     *
-     * @return the base form of the manga (includes the list of chapters)
-     *
-     * @throws MangaNotFoundException
-     *  when the manga does not exist in the database
-     *
-     * @see MangaRepo#findFullMangaBySlug()
-     */
-    public Manga getFullMangaBySlug(String slug) throws MangaNotFoundException {
-        return mangaRepo.findFullMangaBySlug(slug)
+    public Manga getMangaBySlug(String slug) throws MangaNotFoundException {
+        return mangaRepo.findMangaBySlug(slug)
             .orElseThrow(() -> new MangaNotFoundException(slug));
     }
 
@@ -132,7 +111,7 @@ public class MangaService {
      *  when the manga update fails
      */
     public Manga updateManga(Manga manga) throws MangaNotFoundException, MangaWriteException {
-        Manga oldManga = getFullMangaBySlug(manga.getSlug());
+        Manga oldManga = getMangaBySlug(manga.getSlug());
 
         if (!manga.getUrl().equals(oldManga.getUrl())) {
             String message = "Can't change the manga's url";
@@ -168,7 +147,7 @@ public class MangaService {
      *  when the manga does not exist in the database
      */
     public List<Chapter> getAllChaptersByMangaSlug(String slug) throws MangaNotFoundException {
-        Manga manga = getFullMangaBySlug(slug);
+        Manga manga = getMangaBySlug(slug);
 
         return new ArrayList<>(manga.getChapters());
     }
@@ -192,7 +171,7 @@ public class MangaService {
      *  when the database write fails
      */
     public Chapter addChapter(String slug, Chapter chapter) throws MangaNotFoundException, ChapterWriteException, MongoWriteException {
-        Manga manga = getFullMangaBySlug(slug);
+        Manga manga = getMangaBySlug(slug);
 
         if (!manga.addChapter(chapter)) {
             String message = "Chapter already existed";
@@ -241,11 +220,15 @@ public class MangaService {
      *
      * @return the chapter matching the given inputs
      *
+     * @throws MangaNotFoundException
+     *  when the manga does not exist in the database
      * @throws ChapterNotFoundException
      *  when the chapter does not exist in the database
      */
-    public Chapter getChapterByMangaAndChapterSlug(String slug, String chapterSlug) throws ChapterNotFoundException {
-        return mangaRepo.findChapterByMangaAndChapterSlug(slug, chapterSlug)
+    public Chapter getChapterByMangaAndChapterSlug(String slug, String chapterSlug) throws MangaNotFoundException, ChapterNotFoundException {
+        Manga manga = getMangaBySlug(slug);
+
+        return manga.getChapter(chapterSlug)
             .orElseThrow(() -> new ChapterNotFoundException(slug, chapterSlug));
     }
 
@@ -263,51 +246,17 @@ public class MangaService {
      *  when the manga does not exist in the database
      * @throws ChapterNotFoundException
      *  when the chapter does not exist in the database
-     * @throws ChapterWriteException
-     *  when the chapter update fails
      */
-    public Chapter updateChapter(String slug, Chapter chapter) throws MangaNotFoundException, ChapterNotFoundException, ChapterWriteException {
-        Manga manga = getFullMangaBySlug(slug);
+    public Chapter updateChapter(String slug, Chapter chapter) throws MangaNotFoundException, ChapterNotFoundException {
+        Manga manga = getMangaBySlug(slug);
 
-        Chapter oldChapter = getChapterByMangaAndChapterSlug(slug, chapter.getSlug());
-
-        if (!chapter.getUrl().equals(oldChapter.getUrl())) {
-            String message = "Can't change the chapter's url";
-            throw new ChapterWriteException(slug, chapter.getSlug(), message);
+        if (!manga.updateChapter(chapter)) {
+            throw new ChapterNotFoundException(slug, chapter.getSlug());
         }
 
-        manga.updateChapter(chapter);
         mangaRepo.save(manga);
 
         return chapter;
-    }
-
-    // TODO: remove below?
-
-    /**
-     * Deletes all the chapters for the given manga
-     *
-     * @param slug
-     *  the manga's slug
-     */
-    public void deleteAllChaptersByMangaSlug(String slug) {
-        mangaRepo.deleteAllChaptersByMangaSlug(slug);
-    }
-
-    /**
-     * Deletes the given chapter from the manga
-     *
-     * @param slug
-     *  the manga's slug
-     * @param chapterSlug
-     *  the chapter's slug
-     *
-     * @throws ChapterNotFoundException
-     *  when the chapter does not exist in the database
-     */
-    public void deleteChapterByMangaAndChapterSlug(String slug, String chapterSlug) throws ChapterNotFoundException {
-        mangaRepo.deleteChapterByMangaAndChapterSlug(slug, chapterSlug)
-            .orElseThrow(() -> new ChapterNotFoundException(slug, chapterSlug));
     }
 
 }

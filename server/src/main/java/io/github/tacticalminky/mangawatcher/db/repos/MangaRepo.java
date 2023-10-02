@@ -17,11 +17,6 @@ import io.github.tacticalminky.mangawatcher.db.models.*;
  */
 public interface MangaRepo extends MongoRepository<Manga, String> {
     final String minimalMangaFields = "{ slug: 1, title: 1, url: 1, imageUrl: 1 }";
-    final String baseMangaFields = "{ slug: 1, title: 1, url: 1, description: 1, imageUrl: 1, isMonitored: 1, isDescriptionLocked: 1, isImageUrlLocked: 1 }";
-
-    final String baseChapterFields = "{ chapters.slug: 1,  chapters.name: 1, chapters.url: 1, chapters.isRead: 1 }";
-
-    /** Queries for manga */
 
     /**
      * @return a list of manga in the form: { slug, title, url, imageUrl }
@@ -29,26 +24,10 @@ public interface MangaRepo extends MongoRepository<Manga, String> {
     @Query(value = "{ slug: { $regex: ?0 } }", fields = minimalMangaFields, sort = "{ title: 1 }")
     List<MinimalManga> findAllAsMinimalMangaByRegex(String regex);
 
-    @Query(value = "{ slug: ?0 }", fields = baseMangaFields)
-    Optional<Manga> findBaseMangaBySlug(String slug);
-
     @Query(value = "{ slug: ?0 }")
-    Optional<Manga> findFullMangaBySlug(String slug);
+    Optional<Manga> findMangaBySlug(String slug);
 
     @Query(value = "{ slug: ?0 }", delete = true)
     Optional<Manga> deleteMangaBySlug(String slug);
-
-    /** Queries for chapters */
-    @Query(value = "{ slug: ?0 }", fields = baseChapterFields, sort = "{ chapter.number: -1 }")
-    List<Chapter> findAllChaptersByMangaSlug(String slug);
-
-    @Query(value = "{ slug: ?0, chapters.slug: ?1 }", fields = baseChapterFields)
-    Optional<Chapter> findChapterByMangaAndChapterSlug(String slug, String chapterSlug);
-
-    @Query(value = "{ slug: ?0 }", delete = true)
-    List<Chapter> deleteAllChaptersByMangaSlug(String slug);
-
-    @Query(value = "{slug: ?0, chapters.slug: ?1 }", delete = true)
-    Optional<Chapter> deleteChapterByMangaAndChapterSlug(String slug, String chapterSlug);
 
 }

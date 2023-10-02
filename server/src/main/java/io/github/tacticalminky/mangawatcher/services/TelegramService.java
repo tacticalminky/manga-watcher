@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -40,7 +41,8 @@ public class TelegramService extends TelegramLongPollingBot {
     }
 
     public void notifyOfMangaUpdate(Manga manga, List<String> addedChapters) {
-        // TODO: validate manga and addedChapters
+        Assert.notNull(manga, "Manga can not be null");
+        Assert.notNull(addedChapters, "Added chapters can not be null");
 
         String text = manga.getTitle() + " was updated.\n";
 

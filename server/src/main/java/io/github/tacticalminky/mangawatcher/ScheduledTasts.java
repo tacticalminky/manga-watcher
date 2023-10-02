@@ -28,7 +28,7 @@ public class ScheduledTasts {
 
     @Scheduled(cron = "0 0 */2 * * *")
     public void ScheduledSync() {
-        List<Manga> mangas = mangaService.getAllFullManga();
+        List<Manga> mangas = mangaService.getAllAsFullManga();
         for (Manga manga : mangas) {
             List<String> addedChapters = syncService.syncManga(manga);
 
