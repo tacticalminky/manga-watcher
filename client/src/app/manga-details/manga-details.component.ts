@@ -3,7 +3,7 @@ import { NgIf, NgFor } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Manga, Chapter } from '../interfaces';
+import { Manga, Chapter } from '../manga-models';
 import { BackendApiService } from '../backend-api.service';
 import { SyncService } from '../sync.service';
 
@@ -12,11 +12,11 @@ import { SyncService } from '../sync.service';
     standalone: true,
     imports: [NgIf, NgFor],
     templateUrl: './manga-details.component.html',
-    styleUrls: ['./manga-details.component.css']
+    styles: []
 })
 export class MangaDetailsComponent implements OnInit {
-    manga: Manga | undefined;
-    chapters: Chapter[] | undefined;
+    manga?: Manga;
+
     markRead: boolean = false;
     countToUpdate: number = 0;
 
@@ -32,31 +32,24 @@ export class MangaDetailsComponent implements OnInit {
         const mangaSlug = String(routeParams.get('mangaSlug'));
 
         this.getManga(mangaSlug);
-        this.getChapters(mangaSlug);
     }
 
     private getManga(slug: string): void {
         this.apiService.getMangaBySlug(slug).subscribe({
             next: (res: Manga) => {
                 this.manga = res;
-            },
-            error: (error: HttpErrorResponse) => {
-                alert(error.message)
-                this.router.navigate(['/404']);
-            }
-        });
-    }
 
-    private getChapters(mangaSlug: string): void {
-        this.apiService.getChaptersByMangaSlug(mangaSlug).subscribe({
-            next: (res: Chapter[]) => {
-                this.chapters = res;
-                this.markRead = res.find(chapter => {
+                this.manga.chapters.sort((c1, c2) => {
+                    return c2.number - c1.number;
+                });
+
+                this.markRead = this.manga.chapters.find(chapter => {
                     return !chapter.isRead;
                 }) !== undefined;
             },
             error: (error: HttpErrorResponse) => {
-                alert(error.message);
+                alert(error.message)
+                this.router.navigate(['/404']);
             }
         });
     }
@@ -68,7 +61,7 @@ export class MangaDetailsComponent implements OnInit {
     onChapterClick(chapter: Chapter): void {
         if (!chapter.isRead) {
             chapter.isRead = true;
-            this.apiService.updateChapter(chapter.mangaSlug, chapter).subscribe({
+            this.apiService.updateChapter(this.manga!.slug, chapter).subscribe({
                 error: (error: HttpErrorResponse) => {
                     alert(error.message);
                 }
@@ -77,11 +70,11 @@ export class MangaDetailsComponent implements OnInit {
     }
 
     onMarkAllReadClick(read: boolean): void {
-        this.chapters?.forEach(chapter => {
+        this.manga?.chapters?.forEach(chapter => {
             if (chapter.isRead !== read) {
                 this.countToUpdate += 1;
                 chapter.isRead = read;
-                this.apiService.updateChapter(chapter.mangaSlug, chapter).subscribe({
+                this.apiService.updateChapter(this.manga!.slug, chapter).subscribe({
                     next: (res: Chapter) => {
                         this.countToUpdate -= 1;
 

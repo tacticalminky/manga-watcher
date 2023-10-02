@@ -11,10 +11,10 @@ import io.github.tacticalminky.mangawatcher.exceptions.MangaNotFoundException;
 import io.github.tacticalminky.mangawatcher.services.SyncService;
 
 /**
- * 
+ *
  * @author Andrew Mink
  * @version Aug 24, 2023
- * @since 1.0
+ * @since 1.0.0-b.0
  */
 @RestController
 @RequestMapping("/sync")
@@ -26,6 +26,7 @@ public class SyncAPI {
     public ResponseEntity<?> syncAllManga() {
         try {
             syncService.syncAllManga();
+
             return new ResponseEntity<String>("{\"message\":\"success\"}", HttpStatus.OK);
         } catch (MongoWriteException ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -36,6 +37,7 @@ public class SyncAPI {
     public ResponseEntity<String> syncMangaBySlug(@PathVariable("slug") String slug) {
         try {
             syncService.syncMangaBySlug(slug);
+
             return new ResponseEntity<String>("{\"message\":\"success\"}", HttpStatus.OK);
         } catch (MangaNotFoundException ex) {
             return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);
