@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -14,7 +14,8 @@ import { MangaCardComponent } from './manga-card/manga-card.component';
         MangaCardComponent
     ],
     templateUrl: './library.component.html',
-    styles: []
+    styles: [],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LibraryComponent implements OnInit {
     mangaList?: MinimalManga[];
