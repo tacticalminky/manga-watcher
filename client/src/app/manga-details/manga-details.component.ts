@@ -12,10 +12,10 @@ import { SyncService } from '../sync.service';
     standalone: true,
     imports: [NgIf, NgFor],
     templateUrl: './manga-details.component.html',
-    styleUrls: ['./manga-details.component.css']
+    styles: []
 })
 export class MangaDetailsComponent implements OnInit {
-    manga: Manga | undefined;
+    manga?: Manga;
 
     markRead: boolean = false;
     countToUpdate: number = 0;

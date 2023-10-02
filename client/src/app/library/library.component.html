@@ -2,13 +2,7 @@
   <div class="row row-cols-auto justify-content-center g-4">
     <div class="col" *ngFor="let manga of mangaList">
 
-      <!-- <div class="card" style="width: 16rem; height: 24rem;"> -->
-      <div class="card" style="width: 16rem;">
-        <a class="btn" [routerLink]="['/', 'manga', manga.slug]">
-          <img class="card-img-top" [src]="manga.imageUrl" />
-          <h5 class="card-title">{{ manga.title }}</h5>
-        </a>
-      </div>
+      <app-manga-card [manga]="manga" />
 
     </div>
   </div>

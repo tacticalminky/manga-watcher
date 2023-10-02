@@ -8,7 +8,7 @@ import { SyncService } from '../sync.service';
     standalone: true,
     imports: [RouterLink],
     templateUrl: './top-bar.component.html',
-    styleUrls: ['./top-bar.component.css']
+    styles: []
 })
 export class TopBarComponent {
 

@@ -1,20 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { RouterLink } from '@angular/router';
 
 import { MinimalManga } from '../manga-models';
 import { BackendApiService } from '../backend-api.service';
+import { MangaCardComponent } from './manga-card/manga-card.component';
 
 @Component({
     selector: 'app-library',
     standalone: true,
-    imports: [CommonModule, RouterLink],
+    imports: [
+        CommonModule,
+        MangaCardComponent
+    ],
     templateUrl: './library.component.html',
-    styleUrls: ['./library.component.css']
+    styles: []
 })
 export class LibraryComponent implements OnInit {
-    mangaList: MinimalManga[] | undefined;
+    mangaList?: MinimalManga[];
 
     constructor(private apiService: BackendApiService) { }
 

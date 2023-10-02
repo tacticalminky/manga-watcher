@@ -4,14 +4,13 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { BackendApiService } from '../backend-api.service';
 import { NewManga } from '../manga-models';
-import { SyncService } from '../sync.service';
 
 @Component({
     selector: 'app-add-manga-form',
     standalone: true,
     imports: [ReactiveFormsModule],
     templateUrl: './add-manga-form.component.html',
-    styleUrls: ['./add-manga-form.component.css']
+    styles: []
 })
 export class AddMangaFormComponent {
 
@@ -22,7 +21,6 @@ export class AddMangaFormComponent {
 
     constructor(
         private apiService: BackendApiService,
-        private syncService: SyncService,
         private formBuilder: FormBuilder
     ) { }
 
