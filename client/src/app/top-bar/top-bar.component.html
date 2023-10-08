@@ -3,17 +3,17 @@
     <a class="navbar-brand" [routerLink]="['/']">
       <h2>Manga Watcher</h2>
     </a>
-    
+
     <div class="navbar-nav">
       <button class="btn btn-outline-light" type="button" (click)="onSyncAllClick()">
         <i class="fa-solid fa-arrows-rotate"></i>
         Sync All
       </button>
 
-      <a class="btn btn-outline-light" [routerLink]="['/add-manga']">
+      <button class="btn btn-outline-light" type="button" data-bs-toggle="modal" data-bs-target="#addMangaModal">
         <i class="fa-solid fa-plus"></i>
         Add Manga
-      </a>
+      </button>
     </div>
   </div>
 </nav>

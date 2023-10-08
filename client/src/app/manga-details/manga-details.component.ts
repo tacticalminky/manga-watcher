@@ -15,7 +15,7 @@ import { SyncService } from '../sync.service';
     styles: []
 })
 export class MangaDetailsComponent implements OnInit {
-    manga?: Manga;
+    manga!: Manga;
 
     markRead: boolean = false;
     countToUpdate: number = 0;
@@ -61,7 +61,7 @@ export class MangaDetailsComponent implements OnInit {
     onChapterClick(chapter: Chapter): void {
         if (!chapter.isRead) {
             chapter.isRead = true;
-            this.apiService.updateChapter(this.manga!.slug, chapter).subscribe({
+            this.apiService.updateChapter(this.manga.slug, chapter).subscribe({
                 error: (error: HttpErrorResponse) => {
                     alert(error.message);
                 }
@@ -70,14 +70,14 @@ export class MangaDetailsComponent implements OnInit {
     }
 
     onMarkAllReadClick(read: boolean): void {
-        this.manga?.chapters?.forEach(chapter => {
+        this.manga.chapters?.forEach(chapter => {
             if (chapter.isRead !== read) {
                 this.countToUpdate += 1;
                 chapter.isRead = read;
-                this.apiService.updateChapter(this.manga!.slug, chapter).subscribe({
+                this.apiService.updateChapter(this.manga.slug, chapter).subscribe({
                     next: (res: Chapter) => {
                         this.countToUpdate -= 1;
-
+                        console.log(res);
                     }
                 });
             }

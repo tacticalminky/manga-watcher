@@ -6,10 +6,6 @@ export const routes: Routes = [
         loadComponent: () => import('./library/library.component').then(mod => mod.LibraryComponent)
     },
     {
-        path: 'add-manga',
-        loadComponent: () => import('./add-manga-form/add-manga-form.component').then(mod => mod.AddMangaFormComponent)
-    },
-    {
         path: 'manga/:mangaSlug',
         loadComponent: () => import('./manga-details/manga-details.component').then(mod => mod.MangaDetailsComponent)
     },

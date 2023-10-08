@@ -1,9 +1,7 @@
 <div class="container-fluid text-center my-4" *ngIf="mangaList">
   <div class="row row-cols-auto justify-content-center g-4">
-    <div class="col" *ngFor="let manga of mangaList">
 
-      <app-manga-card [manga]="manga" />
+    <app-manga-card class="col" *ngFor="let manga of mangaList" [manga]="manga" />
 
-    </div>
   </div>
 </div>

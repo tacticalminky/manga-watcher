@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
@@ -6,13 +6,14 @@ import { BackendApiService } from '../backend-api.service';
 import { NewManga } from '../manga-models';
 
 @Component({
-    selector: 'app-add-manga-form',
+    selector: 'app-add-manga-modal',
     standalone: true,
     imports: [ReactiveFormsModule],
-    templateUrl: './add-manga-form.component.html',
+    templateUrl: './add-manga-modal.component.html',
     styles: []
 })
-export class AddMangaFormComponent {
+export class AddMangaModalComponent {
+    @Input({ required: true }) modalId!: string;
 
     addMangaForm = this.formBuilder.group({
         title: '',
