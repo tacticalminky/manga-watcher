@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -33,7 +34,8 @@ public class TelegramService extends TelegramLongPollingBot {
     }
 
     @Override
-    public void onUpdateReceived(Update update) {}
+    public void onUpdateReceived(Update update) {
+    }
 
     @Override
     public String getBotUsername() {
@@ -62,7 +64,8 @@ public class TelegramService extends TelegramLongPollingBot {
         SendMessage message = new SendMessage(TELEGRAM_CHAT_ID, text);
         try {
             execute(message);
-        } catch (TelegramApiException ex) {}
+        } catch (TelegramApiException ex) {
+        }
     }
 
 }

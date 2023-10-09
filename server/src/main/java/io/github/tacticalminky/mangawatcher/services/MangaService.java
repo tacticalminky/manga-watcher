@@ -1,9 +1,7 @@
 package io.github.tacticalminky.mangawatcher.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

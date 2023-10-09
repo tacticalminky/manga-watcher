@@ -97,6 +97,13 @@ public class SyncService {
         }
     }
 
+    /**
+     * Creates a chapter from the given link element
+     *
+     * @param link the link element used to generate the chpater
+     *
+     * @return the generated chatper
+     */
     private Chapter createChapterFromLinkElement(Element link) {
         String slug = link.text().replace("Chapter ", "");
         String url = "https://mangapill.com" + link.attr("href");
