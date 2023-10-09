@@ -74,6 +74,7 @@ public class SyncService {
                         break;
                     }
                 }
+                mangaService.updateManga(manga);
             }
 
             /** Update Chapters */
@@ -88,7 +89,7 @@ public class SyncService {
                 }
             }
 
-            mangaService.updateManga(manga);
+            mangaService.updateChapters(manga.getSlug(), manga.getChapters());
 
             return addedChapters;
         } catch (IOException ex) {

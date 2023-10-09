@@ -139,7 +139,7 @@ public class MangaService {
     public List<Chapter> getAllChaptersByMangaSlug(String slug) throws MangaNotFoundException {
         Manga manga = getMangaBySlug(slug);
 
-        return new ArrayList<>(manga.getChapters());
+        return manga.getChapters();
     }
 
     /**
@@ -169,6 +169,18 @@ public class MangaService {
         mangaRepo.addChapterBySlug(slug, chapter);
 
         return chapter;
+    }
+
+    /**
+     * Updates the chapters of the given Manga
+     *
+     * @param slug     the manga's slug
+     * @param chapters the list of chapters
+     *
+     * @throws MongoWriteException when the database write fails
+     */
+    public void updateChapters(String slug, List<Chapter> chapters) throws MongoWriteException {
+        mangaRepo.updateChaptersBySlug(slug, chapters);
     }
 
     /**

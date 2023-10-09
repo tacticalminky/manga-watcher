@@ -39,9 +39,9 @@ export class MangaDetailsComponent implements OnInit {
             next: (res: Manga) => {
                 this.manga = res;
 
-                this.manga.chapters.sort((c1, c2) => {
-                    return c2.number - c1.number;
-                });
+                // this.manga.chapters.sort((c1, c2) => {
+                //     return c2.number - c1.number;
+                // });
 
                 this.markRead = this.manga.chapters.find(chapter => {
                     return !chapter.isRead;

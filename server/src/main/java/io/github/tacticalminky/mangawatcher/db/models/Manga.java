@@ -1,7 +1,9 @@
 package io.github.tacticalminky.mangawatcher.db.models;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -25,7 +27,8 @@ public class Manga extends NewManga {
 
     private Set<Chapter> chapters = new HashSet<>();
 
-    public Manga() {}
+    public Manga() {
+    }
 
     /**
      * Minimal class constructor
@@ -94,12 +97,12 @@ public class Manga extends NewManga {
         this.isImageUrlLocked = isImageUrlLocked;
     }
 
-    public Set<Chapter> getChapters() {
-        return Collections.unmodifiableSet(chapters);
+    public List<Chapter> getChapters() {
+        return Collections.unmodifiableList(new ArrayList<Chapter>(chapters));
     }
 
     public Optional<Chapter> getChapter(String slug) {
-        for (Chapter chapter: chapters) {
+        for (Chapter chapter : chapters) {
             if (chapter.getSlug().equals(slug)) {
                 return Optional.of(chapter);
             }
@@ -117,7 +120,8 @@ public class Manga extends NewManga {
 
     // returns true if successfully updated the chapter
     public boolean updateChapter(Chapter chapter) {
-        if (!chapters.remove(chapter)) return false;
+        if (!chapters.remove(chapter))
+            return false;
 
         return addChapter(chapter);
     }
