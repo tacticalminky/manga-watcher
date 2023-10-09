@@ -10,13 +10,14 @@ import io.github.tacticalminky.mangawatcher.db.models.Manga;
 import io.github.tacticalminky.mangawatcher.services.*;
 
 /**
+ * Sets a schedule to sync the manga every 2 hours
  *
  * @author Andrew Mink
  * @version Sept 30, 2023
  * @since 1.0.0-b.4
  */
 @Component
-public class ScheduledTasts {
+public class ScheduledTasks {
     @Autowired
     private MangaService mangaService;
 
