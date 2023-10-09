@@ -77,7 +77,6 @@ export class MangaDetailsComponent implements OnInit {
                 this.apiService.updateChapter(this.manga.slug, chapter).subscribe({
                     next: (res: Chapter) => {
                         this.countToUpdate -= 1;
-                        console.log(res);
                     }
                 });
             }

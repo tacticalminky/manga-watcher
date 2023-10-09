@@ -9,7 +9,10 @@ package io.github.tacticalminky.mangawatcher.db.models;
  */
 public interface MinimalManga {
     String getSlug();
+
     String getTitle();
+
     String getUrl();
+
     String getImageUrl();
 }

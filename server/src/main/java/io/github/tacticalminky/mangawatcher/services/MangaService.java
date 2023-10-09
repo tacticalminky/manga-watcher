@@ -53,13 +53,12 @@ public class MangaService {
      *
      * TODO: probably don't need to get the manga
      *
-     * @param newManga
-     *  a minimal representation of the manga to be added (title and url)
+     * @param newManga a minimal representation of the manga to be added (title and
+     *                 url)
      *
      * @return the created manga in its full form
      *
-     * @throws MangaWriteException
-     *  when the manga already exists
+     * @throws MangaWriteException when the manga already exists
      */
     public Manga addManga(NewManga newManga) throws MangaWriteException {
         Manga manga = new Manga(newManga.getTitle(), newManga.getUrl());
@@ -84,31 +83,26 @@ public class MangaService {
     /**
      * Finds the manga with the provided slug
      *
-     * @param slug
-     *  the manga's slug
+     * @param slug the manga's slug
      *
      * @return the manga
      *
-     * @throws MangaNotFoundException
-     *  when the manga does not exist in the database
+     * @throws MangaNotFoundException when the manga does not exist in the database
      */
     public Manga getMangaBySlug(String slug) throws MangaNotFoundException {
         return mangaRepo.findMangaBySlug(slug)
-            .orElseThrow(() -> new MangaNotFoundException(slug));
+                .orElseThrow(() -> new MangaNotFoundException(slug));
     }
 
     /**
      * Updates the given manga
      *
-     * @param manga
-     *  the new version of the manga
+     * @param manga the new version of the manga
      *
      * @return the updated manga
      *
-     * @throws MangaNotFoundException
-     *  when the manga does not exist in the database
-     * @throws MangaWriteException
-     *  when the manga update fails
+     * @throws MangaNotFoundException when the manga does not exist in the database
+     * @throws MangaWriteException    when the manga update fails
      */
     public Manga updateManga(Manga manga) throws MangaNotFoundException, MangaWriteException {
         Manga oldManga = getMangaBySlug(manga.getSlug());
@@ -124,27 +118,23 @@ public class MangaService {
     /**
      * Deletes the manga with the given slug
      *
-     * @param slug
-     *  the manga's slug
+     * @param slug the manga's slug
      *
-     * @throws MangaNotFoundException
-     *  when the manga does not exist in the database
+     * @throws MangaNotFoundException when the manga does not exist in the database
      */
     public void deleteMangaBySlug(String slug) throws MangaNotFoundException {
         mangaRepo.deleteMangaBySlug(slug)
-            .orElseThrow(() -> new MangaNotFoundException(slug));
+                .orElseThrow(() -> new MangaNotFoundException(slug));
     }
 
     /**
      * Gets a list of all the chapters for a given manga
      *
-     * @param slug
-     *  the manga's slug
+     * @param slug the manga's slug
      *
      * @return the list of chapters for the manga with the given slug
      *
-     * @throws MangaNotFoundException
-     *  when the manga does not exist in the database
+     * @throws MangaNotFoundException when the manga does not exist in the database
      */
     public List<Chapter> getAllChaptersByMangaSlug(String slug) throws MangaNotFoundException {
         Manga manga = getMangaBySlug(slug);
@@ -156,105 +146,64 @@ public class MangaService {
      * Adds a new chapter to the given manga.
      * Does nothing if the chapter already exists.
      *
-     * @param slug
-     *  the manga's slug
-     * @param chapter
-     *  the chapter to add
+     * @param slug    the manga's slug
+     * @param chapter the chapter to add
      *
      * @return the added chapter
      *
-     * @throws MangaNotFoundException
-     *  when the manga does not exist in the database
-     * @throws ChapterWriteException
-     *  when the chapter already exists in the database
-     * @throws MongoWriteException
-     *  when the database write fails
+     * @throws MangaNotFoundException when the manga does not exist in the database
+     * @throws ChapterWriteException  when the chapter already exists in the
+     *                                database
+     * @throws MongoWriteException    when the database write fails
      */
-    public Chapter addChapter(String slug, Chapter chapter) throws MangaNotFoundException, ChapterWriteException, MongoWriteException {
-        Manga manga = getMangaBySlug(slug);
+    public Chapter addChapter(String slug, Chapter chapter)
+            throws MangaNotFoundException, ChapterWriteException, MongoWriteException {
+        try {
+            getChapterByMangaAndChapterSlug(slug, chapter.getSlug());
 
-        if (!manga.addChapter(chapter)) {
-            String message = "Chapter already existed";
-            throw new ChapterWriteException(manga.getSlug(), chapter.getSlug(), message);
+            String message = "Chapter already exists";
+            throw new ChapterWriteException(slug, chapter.getSlug(), message);
+        } catch (ChapterNotFoundException ex) {
         }
-        mangaRepo.save(manga);
+
+        mangaRepo.addChapterBySlug(slug, chapter);
 
         return chapter;
     }
 
     /**
-     * Adds a new chapter from a given link element
-     *
-     * @param slug
-     *  the manga's slug
-     * @param link
-     *  the link element for the chapter
-     *
-     * @return the added chapter
-     *
-     * @throws MangaNotFoundException
-     *  when the manga does not exist in the database
-     * @throws ChapterWriteException
-     *  when the chapter already exists in the database
-     * @throws MongoWriteException
-     *  when the database write fails
-     */
-    public Chapter addChapterFromLinkElement(String slug, Element link) throws MangaNotFoundException, ChapterWriteException, MongoWriteException {
-        String chapterSlug = link.text().replace("Chapter ", "");
-        String chapterUrl = "https://mangapill.com" + link.attr("href");
-
-        float chapterNumber = Float.parseFloat(chapterSlug);
-
-        Chapter chapter = new Chapter(chapterSlug, chapterNumber, chapterUrl);
-
-        return addChapter(slug, chapter);
-    }
-
-    /**
      * Gets the chapter matching the given slugs
      *
-     * @param slug
-     *  the manga's slug
-     * @param chapterSlug
-     *  the chapter's slug
+     * @param slug        the manga's slug
+     * @param chapterSlug the chapter's slug
      *
      * @return the chapter matching the given inputs
      *
-     * @throws MangaNotFoundException
-     *  when the manga does not exist in the database
-     * @throws ChapterNotFoundException
-     *  when the chapter does not exist in the database
+     * @throws MangaNotFoundException   when the manga does not exist in the
+     *                                  database
+     * @throws ChapterNotFoundException when the chapter does not exist in the
+     *                                  database
      */
-    public Chapter getChapterByMangaAndChapterSlug(String slug, String chapterSlug) throws MangaNotFoundException, ChapterNotFoundException {
+    public Chapter getChapterByMangaAndChapterSlug(String slug, String chapterSlug)
+            throws MangaNotFoundException, ChapterNotFoundException {
         Manga manga = getMangaBySlug(slug);
 
         return manga.getChapter(chapterSlug)
-            .orElseThrow(() -> new ChapterNotFoundException(slug, chapterSlug));
+                .orElseThrow(() -> new ChapterNotFoundException(slug, chapterSlug));
     }
 
     /**
      * Updates the given chapter
      *
-     * @param slug
-     *  the manga's slug
-     * @param chapterSlug
-     *  the chapter's slug
+     * @param slug    the manga's slug
+     * @param chapter the chapter
      *
      * @return the chapter matching the given inputs
      *
-     * @throws MangaNotFoundException
-     *  when the manga does not exist in the database
-     * @throws ChapterNotFoundException
-     *  when the chapter does not exist in the database
+     * @throws MongoWriteException when the database write fails
      */
-    public Chapter updateChapter(String slug, Chapter chapter) throws MangaNotFoundException, ChapterNotFoundException {
-        Manga manga = getMangaBySlug(slug);
-
-        if (!manga.updateChapter(chapter)) {
-            throw new ChapterNotFoundException(slug, chapter.getSlug());
-        }
-
-        mangaRepo.save(manga);
+    public Chapter updateChapter(String slug, Chapter chapter) throws MongoWriteException {
+        mangaRepo.updateChapterIsReadBySlug(slug, chapter.getSlug(), chapter.getIsRead());
 
         return chapter;
     }

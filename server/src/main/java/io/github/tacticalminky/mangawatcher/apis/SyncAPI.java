@@ -11,6 +11,7 @@ import io.github.tacticalminky.mangawatcher.exceptions.MangaNotFoundException;
 import io.github.tacticalminky.mangawatcher.services.SyncService;
 
 /**
+ * API mapping for the sync service
  *
  * @author Andrew Mink
  * @version Aug 24, 2023
@@ -42,7 +43,8 @@ public class SyncAPI {
         } catch (MangaNotFoundException ex) {
             return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);
         } catch (DuplicateKeyException ex) {
-            return new ResponseEntity<>("{\"error_message\":\"" + ex.getCause().getMessage() + "\"}", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("{\"error_message\":\"" + ex.getCause().getMessage() + "\"}",
+                    HttpStatus.CONFLICT);
         }
     }
 

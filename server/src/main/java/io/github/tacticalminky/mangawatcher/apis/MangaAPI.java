@@ -9,16 +9,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.mongodb.MongoWriteException;
 
-
 import io.github.tacticalminky.mangawatcher.exceptions.*;
 import io.github.tacticalminky.mangawatcher.db.models.*;
 import io.github.tacticalminky.mangawatcher.services.MangaService;
 
 /**
- * API mapping for manga services handling manga
+ * API mappings for the manga service
  *
  * @author Andrew Mink
- * @version Oct 1, 2023
+ * @version Oct 8, 2023
  * @since 1.0.0-b.4
  */
 @RestController
@@ -35,10 +34,14 @@ public class MangaAPI {
      * @see MangaService#getAllAsMinimalManga()
      */
     @GetMapping
-    public ResponseEntity<List<MinimalManga>> getAllManga() {
-        List<MinimalManga> manga = mangaService.getAllAsMinimalManga();
+    public ResponseEntity<?> getAllManga() {
+        try {
+            List<MinimalManga> manga = mangaService.getAllAsMinimalManga();
 
-        return new ResponseEntity<List<MinimalManga>>(manga, HttpStatus.OK);
+            return new ResponseEntity<List<MinimalManga>>(manga, HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -46,8 +49,7 @@ public class MangaAPI {
      *
      * TODO: consolidate the conflict returns (they are all dup keys)
      *
-     * @param manga
-     *  the manga to add
+     * @param newManga the manga to add
      *
      * @return http response with the created manga or error message
      *
@@ -61,14 +63,17 @@ public class MangaAPI {
             return new ResponseEntity<Manga>(createdManga, HttpStatus.CREATED);
         } catch (MongoWriteException ex) {
             if (ex.getCode() == 11000) {
-                return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.CONFLICT);
+                return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}",
+                        HttpStatus.CONFLICT);
             }
 
-            return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}",
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (MangaWriteException ex) {
             return new ResponseEntity<>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.CONFLICT);
         } catch (DuplicateKeyException ex) {
-            return new ResponseEntity<>("{\"error_message\":\"" + ex.getCause().getMessage() + "\"}", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("{\"error_message\":\"" + ex.getCause().getMessage() + "\"}",
+                    HttpStatus.CONFLICT);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -77,8 +82,7 @@ public class MangaAPI {
     /**
      * Get mapping for getting a manga
      *
-     * @param slug
-     *  the manga's slug
+     * @param slug the manga's slug
      *
      * @return http response with the manga or error message
      *
@@ -92,14 +96,15 @@ public class MangaAPI {
             return new ResponseEntity<Manga>(manga, HttpStatus.OK);
         } catch (MangaNotFoundException ex) {
             return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     /**
      * Put mapping for updating a manga
      *
-     * @param manga
-     *  the manga to update
+     * @param manga the manga to update
      *
      * @return http response with the updated manga or error message
      *
@@ -115,16 +120,16 @@ public class MangaAPI {
             return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);
         } catch (MangaWriteException ex) {
             return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.CONFLICT);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     /**
      * Put mapping for updating a chapter
      *
-     * @param mangaSlug
-     *  the manga's slug
-     * @param chapter
-     *  the updated chapter
+     * @param slug    the manga's slug
+     * @param chapter the updated chapter
      *
      * @return http response with the updated chapter or error message
      *
@@ -136,10 +141,6 @@ public class MangaAPI {
             Chapter updatedChapter = mangaService.updateChapter(slug, chapter);
 
             return new ResponseEntity<Chapter>(updatedChapter, HttpStatus.OK);
-        } catch (MangaNotFoundException | ChapterNotFoundException ex) {
-            return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);
-        } catch (ChapterWriteException ex) {
-            return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.CONFLICT);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -148,21 +149,22 @@ public class MangaAPI {
     /**
      * Delete mapping for removing a manga
      *
-     * @param slug
-     *  the manga's slug
+     * @param slug the manga's slug
      *
      * @return http response with success or error message
      *
      * @see MangaService#deleteMangaBySlug(String)
      */
     @DeleteMapping("/{slug}")
-    public ResponseEntity<String> deleteMangaBySlug(@PathVariable("slug") String slug) {
+    public ResponseEntity<?> deleteMangaBySlug(@PathVariable("slug") String slug) {
         try {
             mangaService.deleteMangaBySlug(slug);
 
             return new ResponseEntity<String>("{\"message\":\"success\"}", HttpStatus.OK);
         } catch (MangaNotFoundException ex) {
             return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
