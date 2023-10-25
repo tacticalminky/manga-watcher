@@ -136,7 +136,7 @@ public class MangaAPI {
      * @see MangaService#updateChapter(String, Chapter)
      */
     @PutMapping("/{slug}/chapters")
-    public ResponseEntity<?> updateChatper(@PathVariable("slug") String slug, @RequestBody Chapter chapter) {
+    public ResponseEntity<?> updateChapter(@PathVariable("slug") String slug, @RequestBody Chapter chapter) {
         try {
             Chapter updatedChapter = mangaService.updateChapter(slug, chapter);
 
