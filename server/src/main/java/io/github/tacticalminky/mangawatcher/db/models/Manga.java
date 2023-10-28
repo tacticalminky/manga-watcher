@@ -27,14 +27,17 @@ public class Manga extends NewManga {
 
     private Set<Chapter> chapters = new HashSet<>();
 
+    /**
+     * Default class constructor
+     */
     public Manga() {
     }
 
     /**
      * Minimal class constructor
      *
-     * @param title the title of the manga
-     * @param url   the url for the manga
+     * @param title the manga's title
+     * @param url   the manga's url
      */
     public Manga(String title, String url) {
         super(title, url);

@@ -14,9 +14,18 @@ public class NewManga extends AbstractModel {
     @Indexed(unique = true)
     private String title;
 
+    /**
+     * Default class constructor
+     */
     public NewManga() {
     }
 
+    /**
+     * Class constructor
+     *
+     * @param title the manga's title
+     * @param url   the manga's url
+     */
     public NewManga(String title, String url) {
         super(url);
 

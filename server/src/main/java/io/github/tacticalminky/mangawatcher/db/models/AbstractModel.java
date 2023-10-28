@@ -20,9 +20,17 @@ public class AbstractModel implements Serializable {
     @Indexed(unique = true)
     private String url;
 
+    /**
+     * Default class constructor
+     */
     public AbstractModel() {
     }
 
+    /**
+     * Full class constructor
+     *
+     * @param url the url for the manga or chapter
+     */
     public AbstractModel(String url) {
         Assert.hasText(url, "The url must be provided with text");
 
