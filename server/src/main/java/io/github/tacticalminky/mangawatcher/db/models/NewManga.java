@@ -14,7 +14,8 @@ public class NewManga extends AbstractModel {
     @Indexed(unique = true)
     private String title;
 
-    public NewManga() {}
+    public NewManga() {
+    }
 
     public NewManga(String title, String url) {
         super(url);

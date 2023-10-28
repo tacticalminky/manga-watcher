@@ -12,14 +12,15 @@ public class Chapter extends AbstractModel {
 
     private boolean isRead = false;
 
-    public Chapter() {}
+    public Chapter() {
+    }
 
     /**
      * Minimal class constructor
      *
-     * @param slug      the chapter's slug
-     * @param number    the chapter's number
-     * @param url       the chapter's url
+     * @param slug   the chapter's slug
+     * @param number the chapter's number
+     * @param url    the chapter's url
      */
     public Chapter(String slug, float number, String url) {
         super(url);
@@ -31,11 +32,11 @@ public class Chapter extends AbstractModel {
     /**
      * Full class constructor
      *
-     * @param slug      the chapter's slug
-     * @param number    the chapter's number
-     * @param url       the chapter's url
-     * @param isRead    <code>true</code> if the manga has been read;
-     *                  <code>false</code> otherwise
+     * @param slug   the chapter's slug
+     * @param number the chapter's number
+     * @param url    the chapter's url
+     * @param isRead <code>true</code> if the manga has been read;
+     *               <code>false</code> otherwise
      */
     public Chapter(String slug, float number, String url, boolean isRead) {
         super(url);

@@ -20,7 +20,8 @@ public class AbstractModel implements Serializable {
     @Indexed(unique = true)
     private String url;
 
-    public AbstractModel() {}
+    public AbstractModel() {
+    }
 
     public AbstractModel(String url) {
         Assert.hasText(url, "The url must be provided with text");
@@ -44,7 +45,8 @@ public class AbstractModel implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
+        if (this == obj)
+            return true;
 
         if (obj == null || this.slug == null || !(this.getClass().equals(obj.getClass()))) {
             return false;
