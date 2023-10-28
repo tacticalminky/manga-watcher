@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.index.IndexDirection;
  * Database Model for Chapters
  *
  * @author Andrew Mink
- * @version Oct 1, 2023
+ * @version Oct 28, 2023
  * @since 1.0.0-b.4
  */
 public class Chapter extends AbstractModel {
