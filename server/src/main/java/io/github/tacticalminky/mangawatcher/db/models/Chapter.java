@@ -1,5 +1,8 @@
 package io.github.tacticalminky.mangawatcher.db.models;
 
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.index.IndexDirection;
+
 /**
  * Database Model for Chapters
  *
@@ -8,10 +11,14 @@ package io.github.tacticalminky.mangawatcher.db.models;
  * @since 1.0.0-b.4
  */
 public class Chapter extends AbstractModel {
+    @Indexed(direction = IndexDirection.DESCENDING)
     private float number;
 
     private boolean isRead = false;
 
+    /**
+     * Default class constructor
+     */
     public Chapter() {
     }
 
