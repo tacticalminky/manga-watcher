@@ -10,7 +10,7 @@ import io.github.tacticalminky.mangawatcher.db.models.Manga;
 import io.github.tacticalminky.mangawatcher.services.*;
 
 /**
- * Sets a schedule to sync the manga every 2 hours
+ * Sets a schedule to sync the manga every hour
  *
  * @author Andrew Mink
  * @version Sept 30, 2023
@@ -27,8 +27,8 @@ public class ScheduledTasks {
     @Autowired
     private TelegramService telegramService;
 
-    @Scheduled(cron = "0 0 */2 * * *")
-    public void ScheduledSync() {
+    @Scheduled(cron = "0 0 * * * *")
+    public void scheduledSync() {
         List<Manga> mangas = mangaService.getAllAsFullManga();
         for (Manga manga : mangas) {
             List<String> addedChapters = syncService.syncManga(manga);
