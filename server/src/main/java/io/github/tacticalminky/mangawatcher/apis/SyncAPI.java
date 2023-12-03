@@ -31,7 +31,7 @@ public class SyncAPI {
         try {
             syncService.syncAllManga();
 
-            return new ResponseEntity<String>("{\"message\":\"success\"}", HttpStatus.OK);
+            return new ResponseEntity<String>("{'message': 'success'}", HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -49,9 +49,9 @@ public class SyncAPI {
         try {
             syncService.syncMangaBySlug(slug);
 
-            return new ResponseEntity<String>("{\"message\":\"success\"}", HttpStatus.OK);
+            return new ResponseEntity<String>("{'message': 'success'}", HttpStatus.OK);
         } catch (MangaNotFoundException ex) {
-            return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>("{'error_message': '" + ex.getMessage() + "'}", HttpStatus.NOT_FOUND);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }

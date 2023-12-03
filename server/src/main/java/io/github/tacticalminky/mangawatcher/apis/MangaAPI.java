@@ -63,16 +63,16 @@ public class MangaAPI {
             return new ResponseEntity<Manga>(createdManga, HttpStatus.CREATED);
         } catch (MongoWriteException ex) {
             if (ex.getCode() == 11000) {
-                return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}",
+                return new ResponseEntity<String>("{'error_message': '" + ex.getMessage() + "'}",
                         HttpStatus.CONFLICT);
             }
 
-            return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}",
+            return new ResponseEntity<String>("{'error_message': '" + ex.getMessage() + "'}",
                     HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (MangaWriteException ex) {
-            return new ResponseEntity<>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("{'error_message': '" + ex.getMessage() + "'}", HttpStatus.CONFLICT);
         } catch (DuplicateKeyException ex) {
-            return new ResponseEntity<>("{\"error_message\":\"" + ex.getCause().getMessage() + "\"}",
+            return new ResponseEntity<>("{'error_message': '" + ex.getCause().getMessage() + "'}",
                     HttpStatus.CONFLICT);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -95,7 +95,7 @@ public class MangaAPI {
 
             return new ResponseEntity<Manga>(manga, HttpStatus.OK);
         } catch (MangaNotFoundException ex) {
-            return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>("{'error_message': '" + ex.getMessage() + "'}", HttpStatus.NOT_FOUND);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -117,9 +117,9 @@ public class MangaAPI {
 
             return new ResponseEntity<Manga>(updatedManga, HttpStatus.OK);
         } catch (MangaNotFoundException ex) {
-            return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>("{'error_message': '" + ex.getMessage() + "'}", HttpStatus.NOT_FOUND);
         } catch (MangaWriteException ex) {
-            return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.CONFLICT);
+            return new ResponseEntity<String>("{'error_message': '" + ex.getMessage() + "'}", HttpStatus.CONFLICT);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -160,9 +160,9 @@ public class MangaAPI {
         try {
             mangaService.deleteMangaBySlug(slug);
 
-            return new ResponseEntity<String>("{\"message\":\"success\"}", HttpStatus.OK);
+            return new ResponseEntity<String>("{'message': 'success'}", HttpStatus.OK);
         } catch (MangaNotFoundException ex) {
-            return new ResponseEntity<String>("{\"error_message\":\"" + ex.getMessage() + "\"}", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>("{'error_message': '" + ex.getMessage() + "'}", HttpStatus.NOT_FOUND);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
