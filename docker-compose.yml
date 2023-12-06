@@ -16,15 +16,15 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
       MONGO_INITDB_DATABASE: ${MONGODB_DB}
 
-  backend:
-    container_name: mangawatcher-backend
-    image: tacticalminky/mangawatcher-backend
-    build: ./server
+  mangawatcher:
+    container_name: mangawatcher
+    image: tacticalminky/mangawatcher
+    build: .
     ports:
       - 8091:8091
     networks:
       - dbnet
-      - apinet
+      # - proxynet
     environment:
       MONGODB_URI: mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@mongo:27017
       MONGODB_DB: ${MONGODB_DB}
@@ -34,22 +34,8 @@ services:
     depends_on:
       - mongo
 
-  frontend:
-    container_name: mangawatcher-frontend
-    image: tacticalminky/mangawatcher-frontend
-    build: ./client
-    ports:
-      - 4200:80
-    networks:
-      - apinet
-      # - proxynet
-    depends_on:
-      - backend
-
 networks:
   dbnet:
-    driver: bridge
-  apinet:
     driver: bridge
   # proxynet:
   #   name: proxynet
