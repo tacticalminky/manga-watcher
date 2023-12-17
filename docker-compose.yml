@@ -3,8 +3,6 @@ services:
   mongo:
     container_name: mongo
     image: mongo
-    ports:
-      - 27017:27017
     networks:
       - dbnet
     volumes:
@@ -27,6 +25,7 @@ services:
       # - proxynet
     environment:
       MONGODB_URI: mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@mongo:27017
+        #MONGODB_URI: ${MONGODB_URI}
       MONGODB_DB: ${MONGODB_DB}
       TELEGRAM_BOT_USERNAME: ${TELEGRAM_BOT_USERNAME}
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
