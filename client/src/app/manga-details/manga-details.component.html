@@ -42,7 +42,7 @@
       <div class="col" *ngFor="let chapter of manga.chapters">
         <div class="card">
           <a class="btn {{ ((chapter.isRead) ? 'btn-outline-secondary' : 'btn-outline-light' ) }}" [href]="chapter.url"
-            target="_blank" (click)="onChapterClick(chapter)">
+            target="_blank" rel="noopener noreferrer" (click)="onChapterClick(chapter)">
             Chapter {{ chapter.slug }}
           </a>
         </div>
