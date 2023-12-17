@@ -19,7 +19,7 @@ import io.github.tacticalminky.mangawatcher.db.models.*;
  * The sync service used to sync manga
  *
  * @author Andrew Mink
- * @version Oct 8, 2023
+ * @version Dec 17, 2023
  * @since 1.0.0-b.4
  */
 @Service
@@ -78,20 +78,24 @@ public class SyncService {
             }
 
             /** Update Chapters */
-            List<String> addedChapters = new ArrayList<String>();
+            List<Chapter> addedChapters = new ArrayList<Chapter>();
+            List<String> addedChapterSlugs = new ArrayList<String>();
 
             Element chaptersDiv = mangaPage.getElementById("chapters");
             Elements links = chaptersDiv.getElementsByTag("a");
             for (Element link : links) {
                 Chapter chapter = createChapterFromLinkElement(link);
                 if (manga.addChapter(chapter)) {
-                    addedChapters.add(chapter.getSlug());
+                    addedChapters.add(chapter);
+                    addedChapterSlugs.add(chapter.getSlug());
                 }
             }
 
-            mangaService.updateChapters(manga.getSlug(), manga.getChapters());
+            if (!addedChapters.isEmpty()) {
+                mangaService.addChapters(manga.getSlug(), addedChapters);
+            }
 
-            return addedChapters;
+            return addedChapterSlugs;
         } catch (IOException ex) {
             return null;
         }

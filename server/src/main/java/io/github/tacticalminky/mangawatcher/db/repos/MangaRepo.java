@@ -33,12 +33,12 @@ public interface MangaRepo extends MongoRepository<Manga, String> {
     Optional<Manga> deleteMangaBySlug(String slug);
 
     @Query("{ slug: ?0 }")
-    @Update("{ $push: { chapters: { $each: [?1], $sort: { number: -1 }}}}")
+    @Update("{ $addToSet: { chapters: { $each: [?1], $sort: { number: -1 }}}}")
     void addChapterBySlug(String slug, Chapter chapter);
 
     @Query("{ slug: ?0 }")
     @Update("{ $push: { chapters: { $each: ?1, $sort: { number: -1 }}}}")
-    void updateChaptersBySlug(String slug, List<Chapter> chapters);
+    void addChaptersBySlug(String slug, List<Chapter> chapters);
 
     @Query("{ slug: ?0, 'chapters.slug': ?1 }")
     @Update("{ $set: { 'chapters.$.isRead': ?2 }}")

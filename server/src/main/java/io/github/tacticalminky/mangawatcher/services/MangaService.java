@@ -161,15 +161,15 @@ public class MangaService {
     }
 
     /**
-     * Updates the chapters of the given Manga
+     * Adds the chapters to the given Manga
      *
      * @param slug     the manga's slug
      * @param chapters the list of chapters
      *
      * @throws MongoWriteException when the database write fails
      */
-    public void updateChapters(String slug, List<Chapter> chapters) throws MongoWriteException {
-        mangaRepo.updateChaptersBySlug(slug, chapters);
+    public void addChapters(String slug, List<Chapter> chapters) throws MongoWriteException {
+        mangaRepo.addChaptersBySlug(slug, chapters);
     }
 
     /**
