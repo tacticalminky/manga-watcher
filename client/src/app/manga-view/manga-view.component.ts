@@ -8,13 +8,13 @@ import { BackendApiService } from '../backend-api.service';
 import { SyncService } from '../sync.service';
 
 @Component({
-    selector: 'app-manga-details',
+    selector: 'app-manga-view',
     standalone: true,
     imports: [NgIf, NgFor],
-    templateUrl: './manga-details.component.html',
+    templateUrl: './manga-view.component.html',
     styles: []
 })
-export class MangaDetailsComponent implements OnInit {
+export class MangaViewComponent implements OnInit {
     manga!: Manga;
 
     markRead: boolean = false;

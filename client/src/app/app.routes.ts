@@ -7,7 +7,7 @@ export const routes: Routes = [
     },
     {
         path: 'manga/:mangaSlug',
-        loadComponent: () => import('./manga-details/manga-details.component').then(mod => mod.MangaDetailsComponent)
+        loadComponent: () => import('./manga-view/manga-view.component').then(mod => mod.MangaViewComponent)
     },
     {
         path: '**',
