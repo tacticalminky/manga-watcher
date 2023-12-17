@@ -15,7 +15,7 @@ import io.github.tacticalminky.mangawatcher.db.repos.MangaRepo;
  * The service for getting and interacting with manga and chapters
  *
  * @author Andrew Mink
- * @version Oct 1, 2023
+ * @version Dec 17, 2023
  * @since 1.0.0-b.4
  */
 @Service
@@ -49,8 +49,6 @@ public class MangaService {
     /**
      * Adds a new manga to the database
      *
-     * TODO: probably don't need to get the manga
-     *
      * @param newManga a minimal representation of the manga to be added (title and
      *                 url)
      *
@@ -58,24 +56,17 @@ public class MangaService {
      *
      * @throws MangaWriteException when the manga already exists
      */
-    public Manga addManga(NewManga newManga) throws MangaWriteException {
+    public Manga addManga(NewManga newManga) throws MongoWriteException {
         Manga manga = new Manga(newManga.getTitle(), newManga.getUrl());
 
         String slug = manga.getTitle().toLowerCase();
         slug = slug.replace(' ', '-');
         manga.setSlug(slug);
 
-        try {
-            getMangaBySlug(manga.getSlug());
+        Manga createdManga = mangaRepo.insert(manga);
+        syncService.syncManga(manga);
 
-            String message = "Manga already exists, can't create new";
-            throw new MangaWriteException(manga.getSlug(), message);
-        } catch (MangaNotFoundException ex) {
-            Manga createdManga = mangaRepo.save(manga);
-
-            syncService.syncManga(manga);
-            return createdManga;
-        }
+        return createdManga;
     }
 
     /**

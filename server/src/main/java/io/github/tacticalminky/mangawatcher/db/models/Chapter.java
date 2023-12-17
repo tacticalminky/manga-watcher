@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.index.IndexDirection;
  * @since 1.0.0-b.4
  */
 public class Chapter extends AbstractModel {
-    @Indexed(direction = IndexDirection.DESCENDING, unique = true)
+    @Indexed(direction = IndexDirection.DESCENDING)
     private float number;
 
     private boolean isRead = false;

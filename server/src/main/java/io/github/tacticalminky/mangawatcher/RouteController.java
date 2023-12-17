@@ -1,18 +1,21 @@
 package io.github.tacticalminky.mangawatcher;
 
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import jakarta.servlet.http.HttpServletRequest;
-
 /**
  * RouteController
+ *
+ * @author Andrew Mink
+ * @version Dec 17, 2023
+ * @since 1.0.0-b.4
  */
 @Controller
-public class RouteController {
+public class RouteController implements ErrorController {
 
-    @RequestMapping(value = { "/{path:[^\\.]*}" })
-    public String redirect(HttpServletRequest request) {
+    @RequestMapping(value = { "${server.error.path:${error.path:/error}}" })
+    public String redirect() {
         return "forward:/";
     }
 }

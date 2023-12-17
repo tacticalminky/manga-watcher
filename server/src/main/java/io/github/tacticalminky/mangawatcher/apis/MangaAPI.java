@@ -3,7 +3,6 @@ package io.github.tacticalminky.mangawatcher.apis;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,7 @@ import io.github.tacticalminky.mangawatcher.services.MangaService;
  * API mappings for the manga service
  *
  * @author Andrew Mink
- * @version Oct 8, 2023
+ * @version Dec 17, 2023
  * @since 1.0.0-b.4
  */
 @RestController
@@ -47,8 +46,6 @@ public class MangaAPI {
     /**
      * Post mapping for adding a manga
      *
-     * TODO: consolidate the conflict returns (they are all dup keys)
-     *
      * @param newManga the manga to add
      *
      * @return http response with the created manga or error message
@@ -63,17 +60,10 @@ public class MangaAPI {
             return new ResponseEntity<Manga>(createdManga, HttpStatus.CREATED);
         } catch (MongoWriteException ex) {
             if (ex.getCode() == 11000) {
-                return new ResponseEntity<String>("{'error_message': '" + ex.getMessage() + "'}",
-                        HttpStatus.CONFLICT);
+                return new ResponseEntity<>(ex, HttpStatus.CONFLICT);
             }
 
-            return new ResponseEntity<String>("{'error_message': '" + ex.getMessage() + "'}",
-                    HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (MangaWriteException ex) {
-            return new ResponseEntity<>("{'error_message': '" + ex.getMessage() + "'}", HttpStatus.CONFLICT);
-        } catch (DuplicateKeyException ex) {
-            return new ResponseEntity<>("{'error_message': '" + ex.getCause().getMessage() + "'}",
-                    HttpStatus.CONFLICT);
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
