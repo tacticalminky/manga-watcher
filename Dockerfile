@@ -36,8 +36,8 @@ EXPOSE 8091
 ENV MONGODB_URI="mongodb+srv://<username>:<password>@<clusterName>.mongodb.net"
 ENV MONGODB_DB="mangawatcher"
 
-ENV TELEGRAM_BOT_USERNAME="<bot_username>"
-ENV TELEGRAM_BOT_TOKEN="<token>"
-ENV TELEGRAM_CHAT_ID="<chat_id>"
+ENV TELEGRAM_BOT_USERNAME=""
+ENV TELEGRAM_BOT_TOKEN=""
+ENV TELEGRAM_CHAT_ID=""
 
 ENTRYPOINT [ "java", "-jar", "/opt/app/*.jar" ]
