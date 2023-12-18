@@ -3,10 +3,25 @@
     <a class="navbar-brand" [routerLink]="['/']">
       <h2>Manga Watcher</h2>
     </a>
-    
+
     <div class="navbar-nav">
-      <button class="btn btn-outline-light" type="button" (click)="onSyncAllClick()">Sync All</button>
-      <a class="btn btn-outline-light" [routerLink]="['/add-manga']">Add Manga</a>
+      <div *ngIf="!this.syncing; else syncingAllButton">
+        <button class="btn btn-outline-light" type="button" (click)="onSyncAllClick()">
+          <i class="fa-solid fa-arrows-rotate"></i>
+          Sync All
+        </button>
+      </div>
+      <ng-template #syncingAllButton>
+        <button class="btn btn-primary" type="button" disabled>
+          <i class="fa-solid fa-arrows-rotate fa-spin"></i>
+          Syncing
+        </button>
+      </ng-template>
+
+      <button class="btn btn-outline-light" type="button" data-bs-toggle="modal" data-bs-target="#addMangaModal">
+        <i class="fa-solid fa-plus"></i>
+        Add Manga
+      </button>
     </div>
   </div>
 </nav>

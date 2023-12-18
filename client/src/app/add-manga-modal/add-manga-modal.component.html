@@ -1,0 +1,23 @@
+<div id="{{ modalId }}" class="modal fade" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Add Manga</h2>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+
+        <form [formGroup]="addMangaForm" (ngSubmit)="onSubmit()">
+          <label class="form-label" for="title">Title</label>
+          <input class="form-control" id="title" type="text" placeholder="Manga Title" formControlName="title" />
+
+          <label class="form-label" for="url">URL</label>
+          <input class="form-control" id="url" type="text" placeholder="https://mangapill.com/" formControlName="url" />
+
+          <button class="btn btn-secondary" type='submit'>Add Manga</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

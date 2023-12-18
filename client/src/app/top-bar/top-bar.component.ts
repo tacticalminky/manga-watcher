@@ -1,17 +1,34 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
-import { SyncService } from '../sync.service';
+import { BackendApiService } from '../backend-api.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { NgIf } from '@angular/common';
 
 @Component({
     selector: 'app-top-bar',
+    standalone: true,
+    imports: [
+        RouterLink,
+        NgIf
+    ],
     templateUrl: './top-bar.component.html',
-    styleUrls: ['./top-bar.component.css']
+    styles: []
 })
 export class TopBarComponent {
-    
-    constructor(private syncService: SyncService) {}
+    syncing: boolean = false;
+
+    constructor(private apiService: BackendApiService) {}
 
     onSyncAllClick(): void {
-        this.syncService.syncAllManga();
+        this.syncing = true;
+        this.apiService.syncAllManga().subscribe({
+            next: () => {
+                this.syncing = false;
+            },
+            error: (error: HttpErrorResponse) => {
+                alert(error.message);
+            }
+        });
     }
 }

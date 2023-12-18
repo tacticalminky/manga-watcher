@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -12,10 +14,12 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import io.github.tacticalminky.mangawatcher.db.models.Manga;
 
 /**
- * 
+ * TODO: allow for disabling Telegram notifications
+ * TODO: validate token, username, and id
+ *
  * @author Andrew Mink
  * @version Aug 29, 2023
- * @since 1.0
+ * @since 1.0.0-b.0
  */
 @Service
 public class TelegramService extends TelegramLongPollingBot {
@@ -30,7 +34,8 @@ public class TelegramService extends TelegramLongPollingBot {
     }
 
     @Override
-    public void onUpdateReceived(Update update) {}
+    public void onUpdateReceived(Update update) {
+    }
 
     @Override
     public String getBotUsername() {
@@ -38,6 +43,9 @@ public class TelegramService extends TelegramLongPollingBot {
     }
 
     public void notifyOfMangaUpdate(Manga manga, List<String> addedChapters) {
+        Assert.notNull(manga, "Manga can not be null");
+        Assert.notNull(addedChapters, "Added chapters can not be null");
+
         String text = manga.getTitle() + " was updated.\n";
 
         if (addedChapters.size() == 1) {
@@ -56,7 +64,8 @@ public class TelegramService extends TelegramLongPollingBot {
         SendMessage message = new SendMessage(TELEGRAM_CHAT_ID, text);
         try {
             execute(message);
-        } catch (TelegramApiException ex) { }
+        } catch (TelegramApiException ex) {
+        }
     }
 
 }
