@@ -12,7 +12,7 @@ import io.github.tacticalminky.mangawatcher.services.SyncService;
  * API mapping for the sync service
  *
  * @author Andrew Mink
- * @version Oct 9, 2023
+ * @version Dec 17, 2023
  * @since 1.0.0-b.4
  */
 @RestController
@@ -31,7 +31,7 @@ public class SyncAPI {
         try {
             syncService.syncAllManga();
 
-            return new ResponseEntity<String>("{'message': 'success'}", HttpStatus.OK);
+            return new ResponseEntity<>(null, HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -49,9 +49,9 @@ public class SyncAPI {
         try {
             syncService.syncMangaBySlug(slug);
 
-            return new ResponseEntity<String>("{'message': 'success'}", HttpStatus.OK);
+            return new ResponseEntity<>(null, HttpStatus.OK);
         } catch (MangaNotFoundException ex) {
-            return new ResponseEntity<String>("{'error_message': '" + ex.getMessage() + "'}", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(ex, HttpStatus.NOT_FOUND);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
