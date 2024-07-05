@@ -16,8 +16,8 @@ import io.github.tacticalminky.mangawatcher.services.MangaService;
  * API mappings for the manga service
  *
  * @author Andrew Mink
- * @version Dec 17, 2023
- * @since 1.0.0-b.4
+ * @version July 5, 2024
+ * @since 0.5.0
  */
 @RestController
 @RequestMapping("/api/manga")
@@ -58,6 +58,8 @@ public class MangaAPI {
             Manga createdManga = mangaService.addManga(newManga);
 
             return new ResponseEntity<Manga>(createdManga, HttpStatus.CREATED);
+        } catch (IllegalArgumentException ex) {
+            return new ResponseEntity<>(ex, HttpStatus.BAD_REQUEST);
         } catch (MongoWriteException ex) {
             if (ex.getCode() == 11000) {
                 return new ResponseEntity<>(ex, HttpStatus.CONFLICT);
