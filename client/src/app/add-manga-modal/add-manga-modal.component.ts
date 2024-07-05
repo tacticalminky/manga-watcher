@@ -26,18 +26,38 @@ export class AddMangaModalComponent {
     ) { }
 
     onSubmit(): void {
+        // validate title and url
+        if (this.addMangaForm.value.title === '') {
+            alert('Title field must not be empty');
+            return;
+        }
+
+        if (this.addMangaForm.value.url === '') {
+            alert('URL field must not be empty');
+            return;
+        }
+
+        // create manga
         const manga: NewManga = {
             title: String(this.addMangaForm.value.title),
             url: String(this.addMangaForm.value.url)
         };
+
         this.addManga(manga);
+
         this.addMangaForm.reset();
     }
 
     private addManga(manga: NewManga): void {
         this.apiService.addManga(manga).subscribe({
             error: (error: HttpErrorResponse) => {
-                alert(error.message);
+                if (error.status === 400) {
+                    alert(error.message);
+                } else if (error.status === 409) {
+                    alert(error.message);
+                } else {
+                    alert(error.message);
+                }
             }
         });
     }
