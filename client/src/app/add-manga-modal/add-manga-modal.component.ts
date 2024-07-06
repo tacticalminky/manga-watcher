@@ -5,6 +5,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { BackendApiService } from '../backend-api.service';
 import { Manga, NewManga } from '../manga-models';
 import { NgIf } from '@angular/common';
+import { AddMangaService } from '../add-manga.service';
 
 @Component({
     selector: 'app-add-manga-modal',
@@ -22,6 +23,7 @@ export class AddMangaModalComponent {
     });
 
     constructor(
+        private addMangaService: AddMangaService,
         private apiService: BackendApiService,
         private formBuilder: FormBuilder
     ) { }
@@ -66,6 +68,8 @@ export class AddMangaModalComponent {
                 this.createAlert('Successfully added manga!', 'success');
                 this.addMangaForm.reset();
                 this.addingManga = false;
+
+                this.addMangaService.emit();
             },
             error: (error: HttpErrorResponse) => {
                 this.createAlert(error.error, 'danger');
