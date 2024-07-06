@@ -9,6 +9,7 @@ import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.UnsupportedMimeTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.mongodb.MongoWriteException;
@@ -60,14 +61,14 @@ public class MangaService {
      *
      * @return the created manga in its full form
      *
+     * @throws DuplicateKeyException        if the manga already exists
      * @throws IllegalArgumentException     if missing title and/or url
      * @throws IOException                  on error when validating url
-     * @throws MongoWriteException          if the manga already exists
      * @throws SocketTimeoutException       if the connection timed out
      * @throws UnsupportedMimeTypeException if the response mime type is not
      *                                      supported
      */
-    public Manga addManga(NewManga newManga) throws IllegalArgumentException, IOException, MongoWriteException,
+    public Manga addManga(NewManga newManga) throws DuplicateKeyException, IllegalArgumentException, IOException,
             SocketTimeoutException, UnsupportedMimeTypeException {
         // validate input exists
         if (newManga.getTitle().isEmpty() || newManga.getUrl().isEmpty()) {

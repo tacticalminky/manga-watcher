@@ -3,10 +3,10 @@ package io.github.tacticalminky.mangawatcher.apis;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.mongodb.MongoWriteException;
 
 import io.github.tacticalminky.mangawatcher.exceptions.*;
 import io.github.tacticalminky.mangawatcher.db.models.*;
@@ -59,13 +59,9 @@ public class MangaAPI {
 
             return new ResponseEntity<Manga>(createdManga, HttpStatus.CREATED);
         } catch (IllegalArgumentException ex) {
-            return new ResponseEntity<>(ex, HttpStatus.BAD_REQUEST);
-        } catch (MongoWriteException ex) {
-            if (ex.getCode() == 11000) {
-                return new ResponseEntity<>(ex, HttpStatus.CONFLICT);
-            }
-
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (DuplicateKeyException ex) {
+            return new ResponseEntity<>("Manga with this title and/or url already exists", HttpStatus.CONFLICT);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
