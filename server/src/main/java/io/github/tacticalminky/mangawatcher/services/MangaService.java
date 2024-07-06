@@ -1,8 +1,15 @@
 package io.github.tacticalminky.mangawatcher.services;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.util.List;
 
+import org.jsoup.HttpStatusException;
+import org.jsoup.Jsoup;
+import org.jsoup.UnsupportedMimeTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.mongodb.MongoWriteException;
@@ -15,8 +22,8 @@ import io.github.tacticalminky.mangawatcher.db.repos.MangaRepo;
  * The service for getting and interacting with manga and chapters
  *
  * @author Andrew Mink
- * @version Dec 17, 2023
- * @since 1.0.0-b.4
+ * @version July 5, 2024
+ * @since 0.5.0
  */
 @Service
 public class MangaService {
@@ -54,9 +61,30 @@ public class MangaService {
      *
      * @return the created manga in its full form
      *
-     * @throws MangaWriteException when the manga already exists
+     * @throws DuplicateKeyException        if the manga already exists
+     * @throws IllegalArgumentException     if missing title and/or url
+     * @throws IOException                  on error when validating url
+     * @throws SocketTimeoutException       if the connection timed out
+     * @throws UnsupportedMimeTypeException if the response mime type is not
+     *                                      supported
      */
-    public Manga addManga(NewManga newManga) throws MongoWriteException {
+    public Manga addManga(NewManga newManga) throws DuplicateKeyException, IllegalArgumentException, IOException,
+            SocketTimeoutException, UnsupportedMimeTypeException {
+        // validate input exists
+        if (newManga.getTitle().isEmpty() || newManga.getUrl().isEmpty()) {
+            throw new IllegalArgumentException("Missing title and/or URL");
+        }
+
+        // validate url
+        try {
+            Jsoup.connect(newManga.getUrl()).get();
+        } catch (MalformedURLException ex) {
+            throw new IllegalArgumentException("Not valid HTTP or HTTPS URL");
+        } catch (HttpStatusException ex) {
+            throw new IllegalArgumentException("Page not found/invalid");
+        }
+
+        // create the manga
         Manga manga = new Manga(newManga.getTitle(), newManga.getUrl());
 
         String slug = manga.getTitle().toLowerCase();
