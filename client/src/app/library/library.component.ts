@@ -5,6 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MinimalManga } from '../manga-models';
 import { BackendApiService } from '../backend-api.service';
 import { MangaCardComponent } from './manga-card/manga-card.component';
+import { AddMangaService } from '../add-manga.service';
 
 @Component({
     selector: 'app-library',
@@ -19,10 +20,15 @@ import { MangaCardComponent } from './manga-card/manga-card.component';
 export class LibraryComponent implements OnInit {
     mangaList: MinimalManga[] = [];
 
-    constructor(private apiService: BackendApiService) { }
+    constructor(
+        private addMangaService: AddMangaService,
+        private apiService: BackendApiService
+    ) { }
 
     ngOnInit(): void {
         this.getManga();
+
+        this.addMangaService.subscribe(() => this.getManga());
     }
 
     private getManga(): void {

@@ -3,10 +3,10 @@ package io.github.tacticalminky.mangawatcher.apis;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.mongodb.MongoWriteException;
 
 import io.github.tacticalminky.mangawatcher.exceptions.*;
 import io.github.tacticalminky.mangawatcher.db.models.*;
@@ -16,8 +16,8 @@ import io.github.tacticalminky.mangawatcher.services.MangaService;
  * API mappings for the manga service
  *
  * @author Andrew Mink
- * @version Dec 17, 2023
- * @since 1.0.0-b.4
+ * @version July 5, 2024
+ * @since 0.5.0
  */
 @RestController
 @RequestMapping("/api/manga")
@@ -58,12 +58,10 @@ public class MangaAPI {
             Manga createdManga = mangaService.addManga(newManga);
 
             return new ResponseEntity<Manga>(createdManga, HttpStatus.CREATED);
-        } catch (MongoWriteException ex) {
-            if (ex.getCode() == 11000) {
-                return new ResponseEntity<>(ex, HttpStatus.CONFLICT);
-            }
-
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (IllegalArgumentException ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (DuplicateKeyException ex) {
+            return new ResponseEntity<>("Manga with this title and/or url already exists", HttpStatus.CONFLICT);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }

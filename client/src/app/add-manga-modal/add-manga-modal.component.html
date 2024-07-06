@@ -1,23 +1,35 @@
-<div id="{{ modalId }}" class="modal fade" tabindex="-1">
+<div id="addMangaModal" class="modal fade" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h2 class="modal-title">Add Manga</h2>
         <button class="btn-close" data-bs-dismiss="modal"></button>
       </div>
-      <div class="modal-body">
 
-        <form [formGroup]="addMangaForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="addMangaForm" (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+          <div id="liveAlertPlaceholder"></div>
+
           <label class="form-label" for="title">Title</label>
           <input class="form-control" id="title" type="text" placeholder="Manga Title" formControlName="title" />
 
           <label class="form-label" for="url">URL</label>
           <input class="form-control" id="url" type="text" placeholder="https://mangapill.com/" formControlName="url" />
+        </div>
 
-          <button class="btn btn-secondary" type='submit'>Add Manga</button>
-        </form>
+        <div class="modal-footer">
+          <div *ngIf="!addingManga; else addingMangaButton">
+            <button class="btn btn-primary" type='submit'>Add Manga</button>
+          </div>
+          <ng-template #addingMangaButton>
+            <button class="btn btn-primary" type='submit' disabled>
+              <i class="fa-solid fa-arrows-rotate fa-spin"></i>
+              Adding Manga
+            </button>
+          </ng-template>
+        </div>
+      </form>
 
-      </div>
     </div>
   </div>
 </div>
