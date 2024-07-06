@@ -83,8 +83,10 @@ export class MangaViewComponent implements OnInit {
     }
 
     onMarkSelectedSubmit(): void {
-        this.manga.chapters.forEach(chapter => {
-            if (chapter.isRead !== this.markSelectedRead && this.selectingForm.get(chapter.slug)?.value) {
+        const selected_chapters: Chapter[] = this.manga.chapters.filter(chapter => this.selectingForm.get(chapter.slug)?.value === true);
+
+        selected_chapters.forEach(chapter => {
+            if (chapter.isRead !== this.markSelectedRead) {
                 this.markChapter(chapter, this.markSelectedRead);
             }
         });
