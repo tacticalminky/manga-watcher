@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 
-import { BackendApiService } from '../backend-api.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { NgIf } from '@angular/common';
+import { BackendApiService } from 'src/app/services/backend-api.service';
 
 @Component({
     selector: 'app-top-bar',
@@ -18,7 +18,7 @@ import { NgIf } from '@angular/common';
 export class TopBarComponent {
     syncing: boolean = false;
 
-    constructor(private apiService: BackendApiService) {}
+    constructor(private apiService: BackendApiService) { }
 
     onSyncAllClick(): void {
         this.syncing = true;

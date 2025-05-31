@@ -4,8 +4,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Manga, Chapter } from '../manga-models';
-import { BackendApiService } from '../backend-api.service';
+import { Manga, Chapter } from 'src/app/manga-models';
+import { BackendApiService } from 'src/app/services/backend-api.service';
 
 @Component({
     selector: 'app-manga-view',

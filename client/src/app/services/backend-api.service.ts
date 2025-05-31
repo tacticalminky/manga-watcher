@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Chapter, Manga, MinimalManga, NewManga } from './manga-models';
+import { Chapter, Manga, MinimalManga, NewManga } from 'src/app/manga-models';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
