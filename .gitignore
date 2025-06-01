@@ -4,11 +4,11 @@
 .vscode/
 
 ### Testing and Environment Vars ###
-local_testing/db
+db
 local_testing/logs.js
 .env
 
-### Java ### 
+### Java ###
 
 # Compiled class file
 *.class

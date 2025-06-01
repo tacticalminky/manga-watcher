@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { MinimalManga } from '../manga-models';
-import { BackendApiService } from '../backend-api.service';
-import { MangaCardComponent } from './manga-card/manga-card.component';
-import { AddMangaService } from '../add-manga.service';
+import { MinimalManga } from 'src/app/manga-models';
+import { MangaCardComponent } from 'src/app/library/manga-card/manga-card.component';
+import { BackendApiService } from 'src/app/services/backend-api.service';
+import { UpdateLibraryService } from 'src/app/services/update-library.service';
 
 @Component({
     selector: 'app-library',
@@ -21,14 +21,14 @@ export class LibraryComponent implements OnInit {
     mangaList: MinimalManga[] = [];
 
     constructor(
-        private addMangaService: AddMangaService,
-        private apiService: BackendApiService
+        private apiService: BackendApiService,
+        private updateLibraryService: UpdateLibraryService
     ) { }
 
     ngOnInit(): void {
         this.getManga();
 
-        this.addMangaService.subscribe(() => this.getManga());
+        this.updateLibraryService.subscribe(() => this.getManga());
     }
 
     private getManga(): void {

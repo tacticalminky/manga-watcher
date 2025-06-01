@@ -1,4 +1,3 @@
-version: '3.9'
 services:
   mongo:
     container_name: mongo
@@ -7,12 +6,12 @@ services:
       - dbnet
     volumes:
       - type: bind
-        source: ${APPDATA_PATH}/db
+        source: ${APPDATA_PATH:-.}/db
         target: /data/db
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
-      MONGO_INITDB_DATABASE: ${MONGODB_DB}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER:-mangawatcher}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD:-password}
+      MONGO_INITDB_DATABASE: ${MONGODB_DB:-mangawatcher}
 
   mangawatcher:
     container_name: mangawatcher
@@ -24,9 +23,9 @@ services:
       - dbnet
       # - proxynet
     environment:
-      MONGODB_URI: mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@mongo:27017
+      MONGODB_URI: mongodb://${MONGODB_USER:-mangawatcher}:${MONGODB_PASSWORD:-password}@mongo:27017
         #MONGODB_URI: ${MONGODB_URI}
-      MONGODB_DB: ${MONGODB_DB}
+      MONGODB_DB: ${MONGODB_DB:-mangawatcher}
       TELEGRAM_BOT_USERNAME: ${TELEGRAM_BOT_USERNAME}
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
       TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID}

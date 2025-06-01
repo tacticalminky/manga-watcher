@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-
 import { RouterOutlet } from '@angular/router';
 
-import { TopBarComponent } from './top-bar/top-bar.component';
-import { AddMangaModalComponent } from './add-manga-modal/add-manga-modal.component';
+import { TopBarComponent } from 'src/app/top-bar/top-bar.component';
+import { AddMangaModalComponent } from 'src/app/add-manga-modal/add-manga-modal.component';
 
 @Component({
     selector: 'app-root',

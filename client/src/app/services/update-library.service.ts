@@ -4,16 +4,16 @@ import { Subscription } from 'rxjs';
 @Injectable({
     providedIn: 'root'
 })
-export class AddMangaService {
-    private addedMangaEmitter: EventEmitter<void> = new EventEmitter(true);
+export class UpdateLibraryService {
+    private updateLibraryEmitter: EventEmitter<void> = new EventEmitter(true);
 
     constructor() { }
 
     emit(): void {
-        this.addedMangaEmitter.emit();
+        this.updateLibraryEmitter.emit();
     }
 
     subscribe(next: () => void): Subscription {
-        return this.addedMangaEmitter.subscribe(next);
+        return this.updateLibraryEmitter.subscribe(next);
     }
 }

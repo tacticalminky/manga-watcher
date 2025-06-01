@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-
-import { BackendApiService } from '../backend-api.service';
-import { Manga, NewManga } from '../manga-models';
 import { NgIf } from '@angular/common';
-import { AddMangaService } from '../add-manga.service';
+
+import { Manga, NewManga } from 'src/app/manga-models';
+import { BackendApiService } from 'src/app/services/backend-api.service';
+import { UpdateLibraryService } from 'src/app/services/update-library.service';
 
 @Component({
     selector: 'app-add-manga-modal',
@@ -23,9 +23,9 @@ export class AddMangaModalComponent {
     });
 
     constructor(
-        private addMangaService: AddMangaService,
+        private formBuilder: FormBuilder,
         private apiService: BackendApiService,
-        private formBuilder: FormBuilder
+        private updateLibraryService: UpdateLibraryService
     ) { }
 
     onSubmit(): void {
@@ -69,7 +69,7 @@ export class AddMangaModalComponent {
                 this.addMangaForm.reset();
                 this.addingManga = false;
 
-                this.addMangaService.emit();
+                this.updateLibraryService.emit();
             },
             error: (error: HttpErrorResponse) => {
                 this.createAlert(error.error, 'danger');
