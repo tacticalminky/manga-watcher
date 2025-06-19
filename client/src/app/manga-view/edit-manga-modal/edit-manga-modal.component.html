@@ -1,1 +1,120 @@
-<p>edit-manga-modal works!</p>
+<div id="editMangaModal" class="modal fade" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Update Manga</h2>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <form [formGroup]="updateMangaForm" (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+          <div id="liveAlertPlaceholder"></div>
+
+          <div class="mb-3">
+            <label class="form-label" for="title">Title</label>
+            <input class="form-control" id="title" type="text" formControlName="title" />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="url">Url</label>
+            <input class="form-control" id="url" type="text" formControlName="url" />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="imageUrl">Image Url</label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <input class="btn-check" type="checkbox" id="isImageUrlLocked" formControlName="isImageUrlLocked" />
+                <div *ngIf="this.updateMangaForm.value.isImageUrlLocked; else isImgUrlLockAlt">
+                  <label class="btn btn-primary" for="isImageUrlLocked">
+                    <i class="fa-solid fa-lock"></i>
+                  </label>
+                </div>
+                <ng-template #isImgUrlLockAlt>
+                  <label class="btn btn-outline-secondary" for="isImageUrlLocked">
+                    <i class="fa-solid fa-lock-open"></i>
+                  </label>
+                </ng-template>
+              </span>
+
+              <input class="form-control" id="imageUrl" type="text" formControlName="imageUrl" />
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="description">Description</label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <input class="btn-check" type="checkbox" id="isDescriptionLocked"
+                  formControlName="isDescriptionLocked" />
+                <div *ngIf="this.updateMangaForm.value.isDescriptionLocked; else isDescLockAlt">
+                  <label class="btn btn-primary" for="isDescriptionLocked">
+                    <i class="fa-solid fa-lock"></i>
+                  </label>
+                </div>
+                <ng-template #isDescLockAlt>
+                  <label class="btn btn-outline-secondary" for="isDescriptionLocked">
+                    <i class="fa-solid fa-lock-open"></i>
+                  </label>
+                </ng-template>
+              </span>
+
+              <textarea class="form-control" id="description" type="text" style="height: 10em"
+                formControlName="description"></textarea>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <input class="btn-check" type="checkbox" id="isMonitored" formControlName="isMonitored" />
+            <div *ngIf="this.updateMangaForm.value.isMonitored; else isMonitoredAlt">
+              <label class="btn btn-primary" for="isMonitored">Unmonitor</label>
+            </div>
+            <ng-template #isMonitoredAlt>
+              <label class="btn btn-outline-secondary" for="isMonitored">Monitor</label>
+            </ng-template>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" (click)="resetForm()">Reset</button>
+
+          <div *ngIf="!updatingManga; else updatingMangaButton">
+            <button class="btn btn-primary" type="submit">Update Manga</button>
+          </div>
+          <ng-template #updatingMangaButton>
+            <button class="btn btn-primary" type="submit" disabled>
+              <i class="fa-solid fa-arrows-rotate fa-spin"></i>
+              Update Mange
+            </button>
+          </ng-template>
+
+          <button class="btn btn-danger" type="button" data-bs-toggle="modal"
+            data-bs-target="#confirmDeleteModal">Delete</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="confirmDeleteModal" class="modal fade" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Confirm Delete</h2>
+        <button class="btn-close" id="confirmDeleteModalClose" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-footer">
+        <div *ngIf="!deletingManga; else deletingMangaButton">
+          <button class="btn btn-danger" type="button" (click)="deleteManga()">Confirm</button>
+        </div>
+        <ng-template #deletingMangaButton>
+          <button class="btn btn-danger" type="button" disabled>
+            <i class="fa-solid fa-arrows-rotate fa-spin"></i>
+            Deleting
+          </button>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

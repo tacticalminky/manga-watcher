@@ -7,7 +7,7 @@ export interface NewManga {
 // Interface for manga in the library view
 export interface MinimalManga extends NewManga {
     slug: string;
-    imageUrl: string | null;
+    imageUrl: string;
 }
 
 // Interface for manga in the detail and editing views

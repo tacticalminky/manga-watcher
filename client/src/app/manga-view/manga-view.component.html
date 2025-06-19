@@ -2,7 +2,7 @@
   <div class="container my-3">
     <div class="row gx-4">
       <div class="col-auto">
-        <img [src]="manga.imageUrl" />
+        <img [src]="manga.imageUrl" style="max-height: 420px; max-width: 300px" />
       </div>
 
       <div class="col-lg col-12">
@@ -47,6 +47,13 @@
             <button class="btn {{ ((!selecting) ? 'btn-primary' : 'btn-danger' ) }}" type="button"
               (click)="toggleSelectChapters()">
               {{ !selecting ? "Select" : "Deselect" }}
+            </button>
+          </div>
+
+          <div class="col-auto my-1">
+            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#editMangaModal">
+              <i class="fa-solid fa-gear"></i>
+              Edit Manga
             </button>
           </div>
 
@@ -95,4 +102,7 @@
     </ng-template>
 
   </div>
+
+  <app-edit-manga-modal [manga]="manga" (updated)="ngOnInit()" />
 </div>
+

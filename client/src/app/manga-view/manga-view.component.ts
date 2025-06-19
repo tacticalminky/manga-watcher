@@ -7,10 +7,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Manga, Chapter } from 'src/app/manga-models';
 import { BackendApiService } from 'src/app/services/backend-api.service';
 
+import { EditMangaModalComponent } from './edit-manga-modal/edit-manga-modal.component';
+
 @Component({
     selector: 'app-manga-view',
     standalone: true,
-    imports: [NgIf, NgFor, ReactiveFormsModule ],
+    imports: [
+        NgIf,
+        NgFor,
+        ReactiveFormsModule,
+        EditMangaModalComponent
+    ],
     templateUrl: './manga-view.component.html',
     styles: []
 })
@@ -43,6 +50,8 @@ export class MangaViewComponent implements OnInit {
         this.apiService.getMangaBySlug(slug).subscribe({
             next: (res: Manga) => {
                 this.manga = res;
+
+                this.manga.chapters.sort((a, b) => b.number - a.number);
 
                 this.markRead = this.manga.chapters.find(chapter => {
                     return !chapter.isRead;
