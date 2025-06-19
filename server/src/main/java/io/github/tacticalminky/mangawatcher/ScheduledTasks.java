@@ -33,7 +33,7 @@ public class ScheduledTasks {
         for (Manga manga : mangas) {
             List<String> addedChapters = syncService.syncManga(manga);
 
-            if (manga.isMonitored() && addedChapters.size() != 0) {
+            if (manga.getIsMonitored() && addedChapters.size() != 0) {
                 telegramService.notifyOfMangaUpdate(manga, addedChapters);
             }
         }

@@ -66,7 +66,7 @@ public class SyncService {
             Document mangaPage = Jsoup.connect(manga.getUrl()).get();
 
             /** Update Description */
-            if (!manga.isDescriptionLocked()) {
+            if (!manga.getIsDescriptionLocked()) {
                 Elements metaTags = mangaPage.getElementsByTag("meta");
                 for (Element metaTag : metaTags) {
                     if (metaTag.attr("name").equals("description")) {

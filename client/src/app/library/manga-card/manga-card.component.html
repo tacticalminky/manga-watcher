@@ -1,6 +1,8 @@
 <div class="card" style="width: 16rem;">
   <a class="btn" [routerLink]="['/', 'manga', manga.slug]">
-    <img class="card-img-top" [src]="manga.imageUrl" />
+    <div class="mb-3">
+      <img class="card-img-top" [src]="manga.imageUrl" style="max-height: 280px, max-width: 200px" />
+    </div>
     <h5 class="card-title">{{ manga.title }}</h5>
   </a>
 </div>

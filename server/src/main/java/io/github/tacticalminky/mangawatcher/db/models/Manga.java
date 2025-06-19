@@ -76,7 +76,7 @@ public class Manga extends NewManga {
         this.imageUrl = imageUrl;
     }
 
-    public boolean isMonitored() {
+    public boolean getIsMonitored() {
         return isMonitored;
     }
 
@@ -84,7 +84,7 @@ public class Manga extends NewManga {
         this.isMonitored = isMonitored;
     }
 
-    public boolean isDescriptionLocked() {
+    public boolean getIsDescriptionLocked() {
         return isDescriptionLocked;
     }
 
@@ -92,7 +92,7 @@ public class Manga extends NewManga {
         this.isDescriptionLocked = isDescriptionLocked;
     }
 
-    public boolean isImageUrlLocked() {
+    public boolean getIsImageUrlLocked() {
         return isImageUrlLocked;
     }
 
